@@ -77,7 +77,112 @@ blocks:
     coordinate: [507, 14]
     rotation: 0
     state: enabled
+- name: analog_const_source_x_0
+  id: analog_const_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    const: '2'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: float
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [621, 655]
+    rotation: 0
+    state: true
 - name: analog_sig_source_x_0
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '1'
+    comment: ''
+    freq: cos_freq_range
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    phase: '0'
+    samp_rate: input_samp_rate
+    type: float
+    waveform: analog.GR_COS_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [57, 113]
+    rotation: 0
+    state: true
+- name: analog_sig_source_x_0_0
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '1'
+    comment: ''
+    freq: cos_freq_range
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    phase: '0'
+    samp_rate: input_samp_rate
+    type: float
+    waveform: analog.GR_COS_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [188, 236]
+    rotation: 0
+    state: true
+- name: analog_sig_source_x_0_0_0
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '0'
+    comment: ''
+    freq: cos_freq_range
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    phase: '0'
+    samp_rate: input_samp_rate
+    type: float
+    waveform: analog.GR_COS_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [43, 366]
+    rotation: 0
+    state: true
+- name: analog_sig_source_x_0_0_0_0
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '0'
+    comment: ''
+    freq: cos_freq_range
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    phase: '0'
+    samp_rate: input_samp_rate
+    type: float
+    waveform: analog.GR_COS_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [40, 528]
+    rotation: 0
+    state: true
+- name: analog_sig_source_x_0_1
   id: analog_sig_source_x
   parameters:
     affinity: ''
@@ -96,11 +201,66 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [15, 211]
+    coordinate: [976, 39]
     rotation: 0
     state: true
-- name: blocks_deinterleave_0
-  id: blocks_deinterleave
+- name: blocks_add_xx_0
+  id: blocks_add_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [568, 530]
+    rotation: 0
+    state: true
+- name: blocks_delay_0
+  id: blocks_delay
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    delay: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_ports: '1'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [339, 646]
+    rotation: 0
+    state: true
+- name: blocks_divide_xx_0
+  id: blocks_divide_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [976, 580]
+    rotation: 0
+    state: true
+- name: blocks_interleave_0
+  id: blocks_interleave
   parameters:
     affinity: ''
     alias: ''
@@ -115,24 +275,45 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [366, 533]
+    coordinate: [442, 143]
     rotation: 0
     state: true
-- name: blocks_null_sink_0
-  id: blocks_null_sink
+- name: blocks_interleave_0_0
+  id: blocks_interleave
   parameters:
     affinity: ''
     alias: ''
-    bus_structure_sink: '[[0,],]'
+    blocksize: '1'
     comment: ''
-    num_inputs: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_streams: '2'
     type: float
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [704, 583]
+    coordinate: [487, 318]
+    rotation: 0
+    state: true
+- name: blocks_interleave_0_0_0
+  id: blocks_interleave
+  parameters:
+    affinity: ''
+    alias: ''
+    blocksize: '1'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_streams: '2'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [850, 341]
     rotation: 0
     state: true
 - name: blocks_throttle_0
@@ -151,7 +332,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [566, 158]
+    coordinate: [675, 153]
     rotation: 0
     state: true
 - name: qtgui_freq_sink_x_0
@@ -205,7 +386,7 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     name: '""'
-    nconnections: '2'
+    nconnections: '4'
     showports: 'False'
     tr_chan: '0'
     tr_level: '0.0'
@@ -224,44 +405,34 @@ blocks:
     width7: '1'
     width8: '1'
     width9: '1'
-    wintype: firdes.WIN_BLACKMAN_hARRIS
+    wintype: firdes.WIN_BLACKMAN
     ymax: '10'
     ymin: '-140'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1265, 190]
-    rotation: 0
-    state: true
-- name: rational_resampler_xxx_0
-  id: rational_resampler_xxx
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    decim: '1'
-    fbw: '0'
-    interp: '2'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    taps: ''
-    type: fff
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [321, 266]
+    coordinate: [1262, 190]
     rotation: 0
     state: true
 
 connections:
-- [analog_sig_source_x_0, '0', rational_resampler_xxx_0, '0']
-- [blocks_deinterleave_0, '0', blocks_throttle_0, '0']
-- [blocks_deinterleave_0, '1', blocks_null_sink_0, '0']
+- [analog_const_source_x_0, '0', blocks_divide_xx_0, '1']
+- [analog_sig_source_x_0, '0', blocks_interleave_0, '0']
+- [analog_sig_source_x_0_0, '0', blocks_interleave_0, '1']
+- [analog_sig_source_x_0_0, '0', blocks_interleave_0_0, '0']
+- [analog_sig_source_x_0_0_0, '0', blocks_interleave_0_0, '1']
+- [analog_sig_source_x_0_0_0_0, '0', blocks_add_xx_0, '0']
+- [analog_sig_source_x_0_0_0_0, '0', blocks_delay_0, '0']
+- [analog_sig_source_x_0_0_0_0, '0', blocks_interleave_0_0_0, '0']
+- [analog_sig_source_x_0_1, '0', qtgui_freq_sink_x_0, '2']
+- [blocks_add_xx_0, '0', blocks_divide_xx_0, '0']
+- [blocks_delay_0, '0', blocks_add_xx_0, '1']
+- [blocks_divide_xx_0, '0', blocks_interleave_0_0_0, '1']
+- [blocks_interleave_0, '0', blocks_throttle_0, '0']
+- [blocks_interleave_0_0, '0', qtgui_freq_sink_x_0, '1']
+- [blocks_interleave_0_0_0, '0', qtgui_freq_sink_x_0, '3']
 - [blocks_throttle_0, '0', qtgui_freq_sink_x_0, '0']
-- [rational_resampler_xxx_0, '0', blocks_deinterleave_0, '0']
-- [rational_resampler_xxx_0, '0', qtgui_freq_sink_x_0, '1']
 
 metadata:
   file_format: 1
