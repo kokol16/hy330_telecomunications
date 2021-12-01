@@ -76,11 +76,11 @@ class lab2_3(gr.top_block, Qt.QWidget):
         ##################################################
         self.samp_rate = samp_rate = 1e6
         self.noise = noise = 0.0
-        self.mod_order = mod_order = 1
+        self.mod_order = mod_order = 3
         self.constellation_qpsk = constellation_qpsk = [1+1j, 1-1j, -1+1j, -1-1j]
         self.constellation_qam_16 = constellation_qam_16 = [-3+3j,-1+3j,-3+1j,-1+1j,3+3j,1+3j,3+1j,1+1j,1-1j,3-1j,1-3j,3-3j,-1-1j,-3-1j,-1-3j,-3-3j]
         self.constellation_bpsk = constellation_bpsk = [-1+0j, +1+0j]
-        self.constellation_0_0 = constellation_0_0 = [-1+0j, +1+0j]
+        self.constellation_8psk = constellation_8psk = [+1+0j,0.707 + 0.707j,0+1j,-0.707 + 0.707j,-1+0j,-0.707 - 0.707j,0-1j,0.707 - 0.707j]
         self.cfo = cfo = 0.0
 
         ##################################################
@@ -132,7 +132,7 @@ class lab2_3(gr.top_block, Qt.QWidget):
 
         self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.pyqwidget(), Qt.QWidget)
         self.top_grid_layout.addWidget(self._qtgui_const_sink_x_0_win)
-        self.digital_chunks_to_symbols_xx_0 = digital.chunks_to_symbols_bc(constellation_qam_16, 1)
+        self.digital_chunks_to_symbols_xx_0 = digital.chunks_to_symbols_bc(constellation_8psk, 1)
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
         self.blocks_packed_to_unpacked_xx_0 = blocks.packed_to_unpacked_bb(mod_order, gr.GR_MSB_FIRST)
         self.blocks_multiply_xx_0 = blocks.multiply_vcc(1)
@@ -192,7 +192,6 @@ class lab2_3(gr.top_block, Qt.QWidget):
 
     def set_constellation_qam_16(self, constellation_qam_16):
         self.constellation_qam_16 = constellation_qam_16
-        self.digital_chunks_to_symbols_xx_0.set_symbol_table(self.constellation_qam_16)
 
     def get_constellation_bpsk(self):
         return self.constellation_bpsk
@@ -200,11 +199,12 @@ class lab2_3(gr.top_block, Qt.QWidget):
     def set_constellation_bpsk(self, constellation_bpsk):
         self.constellation_bpsk = constellation_bpsk
 
-    def get_constellation_0_0(self):
-        return self.constellation_0_0
+    def get_constellation_8psk(self):
+        return self.constellation_8psk
 
-    def set_constellation_0_0(self, constellation_0_0):
-        self.constellation_0_0 = constellation_0_0
+    def set_constellation_8psk(self, constellation_8psk):
+        self.constellation_8psk = constellation_8psk
+        self.digital_chunks_to_symbols_xx_0.set_symbol_table(self.constellation_8psk)
 
     def get_cfo(self):
         return self.cfo

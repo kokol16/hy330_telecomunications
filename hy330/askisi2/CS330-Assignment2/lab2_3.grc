@@ -53,13 +53,14 @@ blocks:
     coordinate: [314, 17]
     rotation: 0
     state: enabled
-- name: constellation_0_0
+- name: constellation_8psk
   id: variable
   parameters:
     comment: 'The constellation points of specific modulation.
 
       For example BPSK is [-1, 1]'
-    value: '[-1+0j, +1+0j]'
+    value: '[+1+0j,0.707 + 0.707j,0+1j,-0.707 + 0.707j,-1+0j,-0.707 - 0.707j,0-1j,0.707
+      - 0.707j]'
   states:
     bus_sink: false
     bus_source: false
@@ -113,7 +114,7 @@ blocks:
   id: variable
   parameters:
     comment: "The number of bits that each \nconstellation point carries"
-    value: '1'
+    value: '3'
   states:
     bus_sink: false
     bus_source: false
@@ -301,7 +302,7 @@ blocks:
     minoutbuf: '0'
     num_ports: '1'
     out_type: complex
-    symbol_table: constellation_qam_16
+    symbol_table: constellation_8psk
   states:
     bus_sink: false
     bus_source: false

@@ -41,7 +41,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [805, 19]
+    coordinate: [633, 21]
     rotation: 0
     state: enabled
 - name: cfo
@@ -74,7 +74,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [718, 19]
+    coordinate: [548, 21]
     rotation: 0
     state: enabled
 - name: modulation_index
@@ -86,7 +86,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [885, 19]
+    coordinate: [697, 16]
     rotation: 0
     state: enabled
 - name: noise
