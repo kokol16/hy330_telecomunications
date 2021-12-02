@@ -29,6 +29,7 @@ import math
 from gnuradio import blocks
 import numpy
 from gnuradio import digital
+from gnuradio import filter
 from gnuradio import gr
 import sys
 import signal
@@ -180,6 +181,7 @@ class lab2_5(gr.top_block, Qt.QWidget):
         self.top_grid_layout.addWidget(self._qtgui_freq_sink_x_0_win)
         self.digital_map_bb_0 = digital.map_bb([-1, 1])
         self.digital_clock_recovery_mm_xx_0 = digital.clock_recovery_mm_ff(sps, math.pi/100.0, 0.5, 0.175, 0.005)
+        self.dc_blocker_xx_0 = filter.dc_blocker_ff(32, True)
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate * 10,True)
         self.blocks_repeat_0 = blocks.repeat(gr.sizeof_float*1, sps)
         self.blocks_packed_to_unpacked_xx_0 = blocks.packed_to_unpacked_bb(1, gr.GR_MSB_FIRST)
@@ -209,7 +211,8 @@ class lab2_5(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_packed_to_unpacked_xx_0, 0), (self.digital_map_bb_0, 0))
         self.connect((self.blocks_repeat_0, 0), (self.analog_frequency_modulator_fc_0, 0))
         self.connect((self.blocks_throttle_0, 0), (self.qtgui_freq_sink_x_0, 0))
-        self.connect((self.digital_clock_recovery_mm_xx_0, 0), (self.qtgui_time_sink_x_0, 0))
+        self.connect((self.dc_blocker_xx_0, 0), (self.qtgui_time_sink_x_0, 0))
+        self.connect((self.digital_clock_recovery_mm_xx_0, 0), (self.dc_blocker_xx_0, 0))
         self.connect((self.digital_map_bb_0, 0), (self.blocks_char_to_float_0, 0))
 
     def closeEvent(self, event):

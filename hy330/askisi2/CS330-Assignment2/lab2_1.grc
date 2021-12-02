@@ -201,32 +201,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [976, 39]
-    rotation: 0
-    state: true
-- name: band_pass_filter_0
-  id: band_pass_filter
-  parameters:
-    affinity: ''
-    alias: ''
-    beta: '6.76'
-    comment: ''
-    decim: '1'
-    gain: '1'
-    high_cutoff_freq: 24e3
-    interp: '1'
-    low_cutoff_freq: '1'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    samp_rate: output_samp_rate
-    type: fir_filter_fff
-    width: '1'
-    win: firdes.WIN_HAMMING
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1142, 450]
+    coordinate: [1130, 3]
     rotation: 0
     state: true
 - name: blocks_add_xx_0
@@ -281,7 +256,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [976, 580]
+    coordinate: [801, 528]
     rotation: 0
     state: true
 - name: blocks_interleave_0
@@ -322,7 +297,7 @@ blocks:
     coordinate: [487, 318]
     rotation: 0
     state: true
-- name: blocks_interleave_0_0_0
+- name: blocks_interleave_0_1
   id: blocks_interleave
   parameters:
     affinity: ''
@@ -338,7 +313,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [850, 341]
+    coordinate: [924, 351]
     rotation: 0
     state: true
 - name: blocks_throttle_0
@@ -358,6 +333,78 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [675, 153]
+    rotation: 0
+    state: true
+- name: low_pass_filter_0
+  id: low_pass_filter
+  parameters:
+    affinity: ''
+    alias: ''
+    beta: '6.76'
+    comment: ''
+    cutoff_freq: 24e3
+    decim: '1'
+    gain: '1'
+    interp: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: output_samp_rate
+    type: fir_filter_fff
+    width: '1'
+    win: firdes.WIN_HAMMING
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [920, 103]
+    rotation: 0
+    state: true
+- name: low_pass_filter_0_0
+  id: low_pass_filter
+  parameters:
+    affinity: ''
+    alias: ''
+    beta: '6.76'
+    comment: ''
+    cutoff_freq: 24e3
+    decim: '1'
+    gain: '1'
+    interp: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: output_samp_rate
+    type: fir_filter_fff
+    width: '1'
+    win: firdes.WIN_HAMMING
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1153, 334]
+    rotation: 0
+    state: true
+- name: low_pass_filter_0_0_0
+  id: low_pass_filter
+  parameters:
+    affinity: ''
+    alias: ''
+    beta: '6.76'
+    comment: ''
+    cutoff_freq: 24e3
+    decim: '1'
+    gain: '1'
+    interp: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: output_samp_rate
+    type: fir_filter_fff
+    width: '1'
+    win: firdes.WIN_HAMMING
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [624, 238]
     rotation: 0
     state: true
 - name: qtgui_freq_sink_x_0
@@ -397,11 +444,11 @@ blocks:
     grid: 'False'
     gui_hint: ''
     label: Relative Gain
-    label1: ''
+    label1: '''duplication'''
     label10: ''''''
-    label2: ''''''
-    label3: ''''''
-    label4: ''''''
+    label2: '''0 amplitude'''
+    label3: '''original 96k signal'''
+    label4: '''average amplitude'''
     label5: ''''''
     label6: ''''''
     label7: ''''''
@@ -446,19 +493,21 @@ connections:
 - [analog_sig_source_x_0, '0', blocks_interleave_0, '0']
 - [analog_sig_source_x_0_0, '0', blocks_interleave_0, '1']
 - [analog_sig_source_x_0_0, '0', blocks_interleave_0_0, '0']
+- [analog_sig_source_x_0_0, '0', blocks_interleave_0_1, '0']
 - [analog_sig_source_x_0_0_0, '0', blocks_interleave_0_0, '1']
 - [analog_sig_source_x_0_0_0_0, '0', blocks_add_xx_0, '0']
 - [analog_sig_source_x_0_0_0_0, '0', blocks_delay_0, '0']
-- [analog_sig_source_x_0_0_0_0, '0', blocks_interleave_0_0_0, '0']
 - [analog_sig_source_x_0_1, '0', qtgui_freq_sink_x_0, '2']
-- [band_pass_filter_0, '0', qtgui_freq_sink_x_0, '0']
 - [blocks_add_xx_0, '0', blocks_divide_xx_0, '0']
 - [blocks_delay_0, '0', blocks_add_xx_0, '1']
-- [blocks_divide_xx_0, '0', blocks_interleave_0_0_0, '1']
+- [blocks_divide_xx_0, '0', blocks_interleave_0_1, '1']
 - [blocks_interleave_0, '0', blocks_throttle_0, '0']
-- [blocks_interleave_0_0, '0', qtgui_freq_sink_x_0, '1']
-- [blocks_interleave_0_0_0, '0', qtgui_freq_sink_x_0, '3']
-- [blocks_throttle_0, '0', band_pass_filter_0, '0']
+- [blocks_interleave_0_0, '0', low_pass_filter_0_0_0, '0']
+- [blocks_interleave_0_1, '0', low_pass_filter_0_0, '0']
+- [blocks_throttle_0, '0', low_pass_filter_0, '0']
+- [low_pass_filter_0, '0', qtgui_freq_sink_x_0, '0']
+- [low_pass_filter_0_0, '0', qtgui_freq_sink_x_0, '3']
+- [low_pass_filter_0_0_0, '0', qtgui_freq_sink_x_0, '1']
 
 metadata:
   file_format: 1

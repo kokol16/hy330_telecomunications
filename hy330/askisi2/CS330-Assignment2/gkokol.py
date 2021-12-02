@@ -72,7 +72,7 @@ class gkokol(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.output_samp_rate = output_samp_rate = 72000
+        self.output_samp_rate = output_samp_rate = 96000
         self.input_samp_rate = input_samp_rate = 48000
         self.cos_freq_range = cos_freq_range = 1e3
 
@@ -88,7 +88,7 @@ class gkokol(gr.top_block, Qt.QWidget):
             0, #fc
             output_samp_rate, #bw
             "", #name
-            2
+            4
         )
         self.qtgui_freq_sink_x_0.set_update_time(0.10)
         self.qtgui_freq_sink_x_0.set_y_axis(-140, 10)
@@ -103,7 +103,7 @@ class gkokol(gr.top_block, Qt.QWidget):
 
         self.qtgui_freq_sink_x_0.set_plot_pos_half(not True)
 
-        labels = ['', '', '', '', '',
+        labels = ['duplication', '0 amplitude', 'original 96k signal', 'average amplitude', '',
             '', '', '', '', '']
         widths = [1, 1, 1, 1, 1,
             1, 1, 1, 1, 1]
@@ -112,7 +112,7 @@ class gkokol(gr.top_block, Qt.QWidget):
         alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
             1.0, 1.0, 1.0, 1.0, 1.0]
 
-        for i in range(2):
+        for i in range(4):
             if len(labels[i]) == 0:
                 self.qtgui_freq_sink_x_0.set_line_label(i, "Data {0}".format(i))
             else:
@@ -123,37 +123,71 @@ class gkokol(gr.top_block, Qt.QWidget):
 
         self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.pyqwidget(), Qt.QWidget)
         self.top_grid_layout.addWidget(self._qtgui_freq_sink_x_0_win)
-        self.blocks_throttle_0 = blocks.throttle(gr.sizeof_float*1, output_samp_rate,True)
-        self.blocks_null_sink_0 = blocks.null_sink(gr.sizeof_float*1)
-        self.blocks_interleave_0 = blocks.interleave(gr.sizeof_float*1, 1)
-        self.blocks_deinterleave_0 = blocks.deinterleave(gr.sizeof_float*1, 1)
-        self.band_pass_filter_0 = filter.fir_filter_fff(
+        self.low_pass_filter_0_0_0 = filter.fir_filter_fff(
             1,
-            firdes.band_pass(
+            firdes.low_pass(
                 1,
                 output_samp_rate,
-                1,
                 24e3,
                 1,
                 firdes.WIN_HAMMING,
                 6.76))
-        self.analog_sig_source_x_0_1 = analog.sig_source_f(output_samp_rate, analog.GR_COS_WAVE, cos_freq_range, 1, 0, 0)
+        self.low_pass_filter_0_0 = filter.fir_filter_fff(
+            1,
+            firdes.low_pass(
+                1,
+                output_samp_rate,
+                24e3,
+                1,
+                firdes.WIN_HAMMING,
+                6.76))
+        self.low_pass_filter_0 = filter.fir_filter_fff(
+            1,
+            firdes.low_pass(
+                1,
+                output_samp_rate,
+                24e3,
+                1,
+                firdes.WIN_HAMMING,
+                6.76))
+        self.blocks_throttle_0 = blocks.throttle(gr.sizeof_float*1, output_samp_rate,True)
+        self.blocks_interleave_0_1 = blocks.interleave(gr.sizeof_float*1, 1)
+        self.blocks_interleave_0_0 = blocks.interleave(gr.sizeof_float*1, 1)
+        self.blocks_interleave_0 = blocks.interleave(gr.sizeof_float*1, 1)
+        self.blocks_divide_xx_0 = blocks.divide_ff(1)
+        self.blocks_delay_0 = blocks.delay(gr.sizeof_float*1, 1)
+        self.blocks_add_xx_0 = blocks.add_vff(1)
+        self.analog_sig_source_x_0_1 = analog.sig_source_f(input_samp_rate*2, analog.GR_COS_WAVE, cos_freq_range, 1, 0, 0)
+        self.analog_sig_source_x_0_0_0_0 = analog.sig_source_f(input_samp_rate, analog.GR_COS_WAVE, cos_freq_range, 0, 0, 0)
+        self.analog_sig_source_x_0_0_0 = analog.sig_source_f(input_samp_rate, analog.GR_COS_WAVE, cos_freq_range, 0, 0, 0)
         self.analog_sig_source_x_0_0 = analog.sig_source_f(input_samp_rate, analog.GR_COS_WAVE, cos_freq_range, 1, 0, 0)
         self.analog_sig_source_x_0 = analog.sig_source_f(input_samp_rate, analog.GR_COS_WAVE, cos_freq_range, 1, 0, 0)
+        self.analog_const_source_x_0 = analog.sig_source_f(0, analog.GR_CONST_WAVE, 0, 0, 2)
 
 
 
         ##################################################
         # Connections
         ##################################################
+        self.connect((self.analog_const_source_x_0, 0), (self.blocks_divide_xx_0, 1))
         self.connect((self.analog_sig_source_x_0, 0), (self.blocks_interleave_0, 0))
-        self.connect((self.analog_sig_source_x_0_0, 0), (self.blocks_deinterleave_0, 0))
-        self.connect((self.analog_sig_source_x_0_1, 0), (self.qtgui_freq_sink_x_0, 1))
-        self.connect((self.band_pass_filter_0, 0), (self.qtgui_freq_sink_x_0, 0))
-        self.connect((self.blocks_deinterleave_0, 0), (self.blocks_interleave_0, 1))
-        self.connect((self.blocks_deinterleave_0, 1), (self.blocks_null_sink_0, 0))
+        self.connect((self.analog_sig_source_x_0_0, 0), (self.blocks_interleave_0, 1))
+        self.connect((self.analog_sig_source_x_0_0, 0), (self.blocks_interleave_0_0, 0))
+        self.connect((self.analog_sig_source_x_0_0, 0), (self.blocks_interleave_0_1, 0))
+        self.connect((self.analog_sig_source_x_0_0_0, 0), (self.blocks_interleave_0_0, 1))
+        self.connect((self.analog_sig_source_x_0_0_0_0, 0), (self.blocks_add_xx_0, 0))
+        self.connect((self.analog_sig_source_x_0_0_0_0, 0), (self.blocks_delay_0, 0))
+        self.connect((self.analog_sig_source_x_0_1, 0), (self.qtgui_freq_sink_x_0, 2))
+        self.connect((self.blocks_add_xx_0, 0), (self.blocks_divide_xx_0, 0))
+        self.connect((self.blocks_delay_0, 0), (self.blocks_add_xx_0, 1))
+        self.connect((self.blocks_divide_xx_0, 0), (self.blocks_interleave_0_1, 1))
         self.connect((self.blocks_interleave_0, 0), (self.blocks_throttle_0, 0))
-        self.connect((self.blocks_throttle_0, 0), (self.band_pass_filter_0, 0))
+        self.connect((self.blocks_interleave_0_0, 0), (self.low_pass_filter_0_0_0, 0))
+        self.connect((self.blocks_interleave_0_1, 0), (self.low_pass_filter_0_0, 0))
+        self.connect((self.blocks_throttle_0, 0), (self.low_pass_filter_0, 0))
+        self.connect((self.low_pass_filter_0, 0), (self.qtgui_freq_sink_x_0, 0))
+        self.connect((self.low_pass_filter_0_0, 0), (self.qtgui_freq_sink_x_0, 3))
+        self.connect((self.low_pass_filter_0_0_0, 0), (self.qtgui_freq_sink_x_0, 1))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "gkokol")
@@ -165,9 +199,10 @@ class gkokol(gr.top_block, Qt.QWidget):
 
     def set_output_samp_rate(self, output_samp_rate):
         self.output_samp_rate = output_samp_rate
-        self.analog_sig_source_x_0_1.set_sampling_freq(self.output_samp_rate)
-        self.band_pass_filter_0.set_taps(firdes.band_pass(1, self.output_samp_rate, 1, 24e3, 1, firdes.WIN_HAMMING, 6.76))
         self.blocks_throttle_0.set_sample_rate(self.output_samp_rate)
+        self.low_pass_filter_0.set_taps(firdes.low_pass(1, self.output_samp_rate, 24e3, 1, firdes.WIN_HAMMING, 6.76))
+        self.low_pass_filter_0_0.set_taps(firdes.low_pass(1, self.output_samp_rate, 24e3, 1, firdes.WIN_HAMMING, 6.76))
+        self.low_pass_filter_0_0_0.set_taps(firdes.low_pass(1, self.output_samp_rate, 24e3, 1, firdes.WIN_HAMMING, 6.76))
         self.qtgui_freq_sink_x_0.set_frequency_range(0, self.output_samp_rate)
 
     def get_input_samp_rate(self):
@@ -177,6 +212,9 @@ class gkokol(gr.top_block, Qt.QWidget):
         self.input_samp_rate = input_samp_rate
         self.analog_sig_source_x_0.set_sampling_freq(self.input_samp_rate)
         self.analog_sig_source_x_0_0.set_sampling_freq(self.input_samp_rate)
+        self.analog_sig_source_x_0_0_0.set_sampling_freq(self.input_samp_rate)
+        self.analog_sig_source_x_0_0_0_0.set_sampling_freq(self.input_samp_rate)
+        self.analog_sig_source_x_0_1.set_sampling_freq(self.input_samp_rate*2)
 
     def get_cos_freq_range(self):
         return self.cos_freq_range
@@ -185,6 +223,8 @@ class gkokol(gr.top_block, Qt.QWidget):
         self.cos_freq_range = cos_freq_range
         self.analog_sig_source_x_0.set_frequency(self.cos_freq_range)
         self.analog_sig_source_x_0_0.set_frequency(self.cos_freq_range)
+        self.analog_sig_source_x_0_0_0.set_frequency(self.cos_freq_range)
+        self.analog_sig_source_x_0_0_0_0.set_frequency(self.cos_freq_range)
         self.analog_sig_source_x_0_1.set_frequency(self.cos_freq_range)
 
 
