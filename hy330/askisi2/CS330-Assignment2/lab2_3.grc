@@ -65,7 +65,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [924, 38]
+    coordinate: [748, 115]
     rotation: 0
     state: enabled
 - name: constellation_bpsk
@@ -79,7 +79,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [616, 32]
+    coordinate: [598, 6]
     rotation: 0
     state: enabled
 - name: constellation_qam_16
@@ -93,7 +93,91 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [907, 118]
+    coordinate: [759, 22]
+    rotation: 0
+    state: enabled
+- name: constellation_qam_16_norm
+  id: variable
+  parameters:
+    comment: 'The constellation points of specific modulation.
+
+      For example BPSK is [-1, 1]'
+    value: '[0.316227766 * -3 - 0.316227766 * 3j, 0.316227766 * -3 - 0.316227766 *
+      1j, 0.316227766 * -3 + 0.316227766 * 1j, 0.316227766 * -3 + 0.316227766 * 3j,
+      0.316227766 * -1 - 0.316227766 * 3j, 0.316227766 * -1 - 0.316227766 * 1j, 0.316227766
+      * -1 + 0.316227766 * 1j, 0.316227766 * -1 + 0.316227766 * 3j, 0.316227766 *
+      1 - 0.316227766 * 3j, 0.316227766 * 1 - 0.316227766 * 1j, 0.316227766 * 1 +
+      0.316227766 * 1j, 0.316227766 * 1 + 0.316227766 * 3j, 0.316227766 * 3 - 0.316227766
+      * 3j, 0.316227766 * 3 - 0.316227766 * 1j, 0.316227766 * 3 + 0.316227766 * 1j,
+      0.316227766 * 3 + 0.316227766 * 3j]'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1231, 97]
+    rotation: 0
+    state: enabled
+- name: constellation_qam_64
+  id: variable
+  parameters:
+    comment: 'The constellation points of specific modulation.
+
+      For example BPSK is [-1, 1]'
+    value: '[-7 - 7j, -7 - 5j, -7 - 3j, -7 - 1j, -7 + 1j, -7 + 3j, -7 + 5j, -7 + 7j,
+      -5 - 7j, -5 - 5j, -5 - 3j, -5 - 1j, -5 + 1j, -5 + 3j, -5 + 5j, -5 + 7j, -3 -
+      7j, -3 - 5j, -3 - 3j, -3 - 1j, -3 + 1j, -3 + 3j, -3 + 5j, -3 + 7j, -1 - 7j,
+      -1 - 5j, -1 - 3j, -1 - 1j, -1 + 1j, -1 + 3j, -1 + 5j, -1 + 7j, 1 - 7j, 1 - 5j,
+      1 - 3j, 1 - 1j, 1 + 1j, 1 + 3j, 1 + 5j, 1 + 7j, 3 - 7j, 3 - 5j, 3 - 3j, 3 -
+      1j, 3 + 1j, 3 + 3j, 3 + 5j, 3 + 7j, 5 - 7j, 5 - 5j, 5 - 3j, 5 - 1j, 5 + 1j,
+      5 + 3j, 5 + 5j, 5 + 7j, 7 - 7j, 7 - 5j, 7 - 3j, 7 - 1j, 7 + 1j, 7 + 3j, 7 +
+      5j, 7 + 7j]'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [932, 25]
+    rotation: 0
+    state: enabled
+- name: constellation_qam_64_norm
+  id: variable
+  parameters:
+    comment: 'The constellation points of specific modulation.
+
+      For example BPSK is [-1, 1]'
+    value: "[0.15430335 * -7 - 0.15430335 * 7j, 0.15430335 * -7 - 0.15430335 * 5j,\
+      \ 0.15430335 * -7 - 0.15430335 * 3j, 0.15430335 * -7 - 0.15430335 * 1j, 0.15430335\
+      \ * -7 + 0.15430335 * 1j, 0.15430335 * -7 + 0.15430335 * 3j, 0.15430335 * -7\
+      \ + 0.15430335 * 5j, 0.15430335 * -7 + 0.15430335 * 7j, 0.15430335 * -5 - 0.15430335\
+      \ * 7j, 0.15430335 * -5 - 0.15430335 * 5j, 0.15430335 * -5 - 0.15430335 * 3j,\
+      \ 0.15430335 * -5 - 0.15430335 * 1j, 0.15430335 * -5 + 0.15430335 * 1j, 0.15430335\
+      \ * -5 + \n0.15430335 * 3j, 0.15430335 * -5 + 0.15430335 * 5j, 0.15430335 *\
+      \ -5 + 0.15430335 * 7j, 0.15430335 * -3 - 0.15430335 * 7j, 0.15430335 * -3 -\
+      \ 0.15430335 * 5j, 0.15430335 * -3 - 0.15430335 * 3j, 0.15430335 * -3 - 0.15430335\
+      \ * 1j, 0.15430335 * -3 + 0.15430335 * 1j, 0.15430335 * -3 + 0.15430335 * 3j,\
+      \ 0.15430335 * -3 + 0.15430335 * 5j, 0.15430335 * -3 + 0.15430335 * 7j, 0.15430335\
+      \ * -1 - 0.15430335 * 7j, 0.15430335 * -1 - 0.15430335 * 5j, 0.15430335 * -1\
+      \ - 0.15430335 * 3j, 0.15430335 * -1 - 0.15430335 * 1j, 0.15430335 * -1 + 0.15430335\
+      \ * 1j, 0.15430335 * -1 + 0.15430335 * 3j, 0.15430335 * -1 + 0.15430335 * 5j,\
+      \ 0.15430335 * -1 + 0.15430335 * 7j, 0.15430335 * 1 - 0.15430335 * 7j, 0.15430335\
+      \ * 1 - 0.15430335 * \n5j, 0.15430335 * 1 - 0.15430335 * 3j, 0.15430335 * 1\
+      \ - 0.15430335 * 1j, 0.15430335 * 1 + 0.15430335 * 1j, 0.15430335 * 1 + 0.15430335\
+      \ * 3j, 0.15430335 * 1 + 0.15430335 * 5j, 0.15430335 * 1 + 0.15430335 * 7j,\
+      \ 0.15430335 * 3 - 0.15430335 * 7j, 0.15430335 * 3 - 0.15430335 * 5j, 0.15430335\
+      \ * 3 - 0.15430335 * 3j, 0.15430335 * 3 - 0.15430335 * 1j, 0.15430335 * 3 +\
+      \ 0.15430335 * 1j, 0.15430335 * 3 + 0.15430335 * 3j, 0.15430335 * 3 + 0.15430335\
+      \ * 5j, 0.15430335 * 3 + 0.15430335 \n* 7j, 0.15430335 * 5 - 0.15430335 * 7j,\
+      \ 0.15430335 * 5 - 0.15430335 * 5j, 0.15430335 * 5 - 0.15430335 * 3j, 0.15430335\
+      \ * 5 - 0.15430335 * 1j, 0.15430335 * 5 + 0.15430335 * 1j, 0.15430335 * 5 +\
+      \ 0.15430335 * 3j, 0.15430335 * 5 + 0.15430335 * 5j, 0.15430335 * 5 + 0.15430335\
+      \ * 7j, 0.15430335 * 7 - 0.15430335 * 7j, 0.15430335 * 7 - 0.15430335 * 5j,\
+      \ 0.15430335 * 7 - 0.15430335 * 3j, 0.15430335 * 7 - 0.15430335 * 1j, 0.15430335\
+      \ * 7 + 0.15430335 * 1j, 0.15430335 * 7 + 0.15430335 * 3j, 0.15430335 * 7 +\
+      \ 0.15430335 * 5j, 0.15430335 * 7 + 0.15430335 * 7j]"
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1227, 174]
     rotation: 0
     state: enabled
 - name: constellation_qpsk
@@ -107,19 +191,35 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [744, 33]
+    coordinate: [578, 96]
+    rotation: 0
+    state: enabled
+- name: constellation_qpsk_norm
+  id: variable
+  parameters:
+    comment: 'The constellation points of specific modulation.
+
+      For example BPSK is [-1, 1]'
+    value: '[0.70710678118 * -1 - 0.70710678118 * 1j, 0.70710678118 * -1 + 0.70710678118
+      * 1j, 0.70710678118 * 1 - 0.70710678118 * 1j, 0.70710678118 * 1 + 0.70710678118
+      * 1j]'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1228, 34]
     rotation: 0
     state: enabled
 - name: mod_order
   id: variable
   parameters:
     comment: "The number of bits that each \nconstellation point carries"
-    value: '3'
+    value: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [489, 115]
+    coordinate: [479, 14]
     rotation: 0
     state: enabled
 - name: noise
@@ -302,12 +402,12 @@ blocks:
     minoutbuf: '0'
     num_ports: '1'
     out_type: complex
-    symbol_table: constellation_8psk
+    symbol_table: constellation_bpsk
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [206, 421]
+    coordinate: [206, 422]
     rotation: 0
     state: enabled
 - name: import_0
