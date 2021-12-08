@@ -91,7 +91,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [621, 655]
+    coordinate: [623, 655]
     rotation: 0
     state: true
 - name: analog_sig_source_x_0
