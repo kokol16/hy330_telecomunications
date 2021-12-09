@@ -65,6 +65,18 @@ blocks:
     coordinate: [327, 19]
     rotation: 0
     state: enabled
+- name: constelation_bpsk
+  id: variable
+  parameters:
+    comment: ''
+    value: '[-1,1]'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [75, 333]
+    rotation: 0
+    state: true
 - name: deviation
   id: variable
   parameters:
@@ -169,6 +181,25 @@ blocks:
     coordinate: [861, 123]
     rotation: 0
     state: enabled
+- name: analog_noise_source_x_0_0
+  id: analog_noise_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: noise
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    noise_type: analog.GR_GAUSSIAN
+    seed: '0'
+    type: complex
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [656, 794]
+    rotation: 0
+    state: enabled
 - name: analog_quadrature_demod_cf_0
   id: analog_quadrature_demod_cf
   parameters:
@@ -185,6 +216,24 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [1072, 340.0]
+    rotation: 180
+    state: enabled
+- name: analog_quadrature_demod_cf_0_0
+  id: analog_quadrature_demod_cf
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Quadrature demodulation block is used to decode
+
+      the signal'
+    gain: '1.0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [892, 505]
     rotation: 180
     state: enabled
 - name: analog_random_source_x_0
@@ -205,6 +254,26 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [23, 187]
+    rotation: 0
+    state: enabled
+- name: analog_random_source_x_0_0
+  id: analog_random_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    max: '256'
+    maxoutbuf: '0'
+    min: '0'
+    minoutbuf: '0'
+    num_samps: '1000'
+    repeat: 'True'
+    type: byte
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [86, 652]
     rotation: 0
     state: enabled
 - name: analog_sig_source_x_0
@@ -229,6 +298,28 @@ blocks:
     coordinate: [917, -5]
     rotation: 0
     state: enabled
+- name: analog_sig_source_x_0_0
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '1'
+    comment: ''
+    freq: cfo
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    phase: '0'
+    samp_rate: samp_rate
+    type: complex
+    waveform: analog.GR_COS_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [987, 782]
+    rotation: 0
+    state: enabled
 - name: blocks_add_xx_0
   id: blocks_add_xx
   parameters:
@@ -245,6 +336,24 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [1029, 183]
+    rotation: 0
+    state: enabled
+- name: blocks_add_xx_0_0
+  id: blocks_add_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [726, 585]
     rotation: 0
     state: enabled
 - name: blocks_char_to_float_0
@@ -282,6 +391,24 @@ blocks:
     coordinate: [1148, 167]
     rotation: 0
     state: enabled
+- name: blocks_multiply_xx_0_0
+  id: blocks_multiply_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [952, 576]
+    rotation: 0
+    state: enabled
 - name: blocks_packed_to_unpacked_xx_0
   id: blocks_packed_to_unpacked_xx
   parameters:
@@ -299,6 +426,25 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [183, 203]
+    rotation: 0
+    state: enabled
+- name: blocks_packed_to_unpacked_xx_0_0
+  id: blocks_packed_to_unpacked_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    bits_per_chunk: '1'
+    comment: Split the byte into a stream of bits
+    endianness: gr.GR_MSB_FIRST
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_ports: '1'
+    type: byte
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [349, 620]
     rotation: 0
     state: enabled
 - name: blocks_repeat_0
@@ -353,7 +499,27 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [411, 600]
+    coordinate: [342, 304]
+    rotation: 0
+    state: true
+- name: digital_chunks_to_symbols_xx_0
+  id: digital_chunks_to_symbols_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    dimension: '1'
+    in_type: byte
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_ports: '1'
+    out_type: complex
+    symbol_table: constelation_bpsk
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [431, 719]
     rotation: 0
     state: true
 - name: digital_clock_recovery_mm_xx_0
@@ -375,6 +541,27 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [620, 400]
+    rotation: 180
+    state: enabled
+- name: digital_clock_recovery_mm_xx_0_0
+  id: digital_clock_recovery_mm_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    gain_mu: '0.175'
+    gain_omega: math.pi/100.0
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mu: '0.5'
+    omega: sps
+    omega_relative_limit: '0.005'
+    type: float
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [371, 484]
     rotation: 180
     state: enabled
 - name: digital_map_bb_0
@@ -443,9 +630,9 @@ blocks:
     grid: 'False'
     gui_hint: ''
     label: Relative Gain
-    label1: ''
+    label1: fsk
     label10: ''
-    label2: ''
+    label2: bpsk
     label3: ''
     label4: ''
     label5: ''
@@ -457,7 +644,7 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     name: '"Transmitted Spectrum"'
-    nconnections: '1'
+    nconnections: '2'
     showports: 'True'
     tr_chan: '0'
     tr_level: '0.0'
@@ -483,7 +670,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1347, 502]
+    coordinate: [1445, 432]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0
@@ -518,9 +705,9 @@ blocks:
     entags: 'True'
     grid: 'False'
     gui_hint: ''
-    label1: ''
+    label1: fsk
     label10: ''
-    label2: ''
+    label2: bpsk
     label3: ''
     label4: ''
     label5: ''
@@ -540,7 +727,7 @@ blocks:
     marker8: '-1'
     marker9: '-1'
     name: '"Received Signal"'
-    nconnections: '1'
+    nconnections: '2'
     size: '1024'
     srate: samp_rate / sps
     stemplot: 'False'
@@ -587,18 +774,28 @@ blocks:
 connections:
 - [analog_frequency_modulator_fc_0, '0', blocks_add_xx_0, '1']
 - [analog_noise_source_x_0, '0', blocks_add_xx_0, '0']
+- [analog_noise_source_x_0_0, '0', blocks_add_xx_0_0, '1']
 - [analog_quadrature_demod_cf_0, '0', digital_clock_recovery_mm_xx_0, '0']
+- [analog_quadrature_demod_cf_0_0, '0', digital_clock_recovery_mm_xx_0_0, '0']
 - [analog_random_source_x_0, '0', blocks_packed_to_unpacked_xx_0, '0']
+- [analog_random_source_x_0_0, '0', blocks_packed_to_unpacked_xx_0_0, '0']
 - [analog_sig_source_x_0, '0', blocks_multiply_xx_0, '0']
+- [analog_sig_source_x_0_0, '0', blocks_multiply_xx_0_0, '1']
 - [blocks_add_xx_0, '0', blocks_multiply_xx_0, '1']
+- [blocks_add_xx_0_0, '0', blocks_multiply_xx_0_0, '0']
 - [blocks_char_to_float_0, '0', blocks_repeat_0, '0']
 - [blocks_multiply_xx_0, '0', analog_quadrature_demod_cf_0, '0']
 - [blocks_multiply_xx_0, '0', blocks_throttle_0, '0']
+- [blocks_multiply_xx_0_0, '0', analog_quadrature_demod_cf_0_0, '0']
+- [blocks_multiply_xx_0_0, '0', qtgui_freq_sink_x_0, '1']
 - [blocks_packed_to_unpacked_xx_0, '0', digital_map_bb_0, '0']
+- [blocks_packed_to_unpacked_xx_0_0, '0', digital_chunks_to_symbols_xx_0, '0']
 - [blocks_repeat_0, '0', analog_frequency_modulator_fc_0, '0']
 - [blocks_throttle_0, '0', qtgui_freq_sink_x_0, '0']
 - [dc_blocker_xx_0, '0', qtgui_time_sink_x_0, '0']
+- [digital_chunks_to_symbols_xx_0, '0', blocks_add_xx_0_0, '0']
 - [digital_clock_recovery_mm_xx_0, '0', dc_blocker_xx_0, '0']
+- [digital_clock_recovery_mm_xx_0_0, '0', qtgui_time_sink_x_0, '1']
 - [digital_map_bb_0, '0', blocks_char_to_float_0, '0']
 
 metadata:

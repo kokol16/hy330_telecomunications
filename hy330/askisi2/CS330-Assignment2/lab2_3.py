@@ -22,13 +22,13 @@ if __name__ == '__main__':
 
 from PyQt5 import Qt
 from gnuradio import qtgui
-from gnuradio.filter import firdes
 import sip
 from gnuradio import analog
 from gnuradio import blocks
 import numpy
 from gnuradio import digital
 from gnuradio import gr
+from gnuradio.filter import firdes
 import sys
 import signal
 from argparse import ArgumentParser
@@ -76,7 +76,7 @@ class lab2_3(gr.top_block, Qt.QWidget):
         ##################################################
         self.samp_rate = samp_rate = 1e6
         self.noise = noise = 0.0
-        self.mod_order = mod_order = 4
+        self.mod_order = mod_order = 3
         self.constellation_qpsk_norm = constellation_qpsk_norm = [0.70710678118 * -1 - 0.70710678118 * 1j, 0.70710678118 * -1 + 0.70710678118 * 1j, 0.70710678118 * 1 - 0.70710678118 * 1j, 0.70710678118 * 1 + 0.70710678118 * 1j]
         self.constellation_qpsk = constellation_qpsk = [1+1j, 1-1j, -1+1j, -1-1j]
         self.constellation_qam_64_norm = constellation_qam_64_norm = [0.15430335 * -7 - 0.15430335 * 7j, 0.15430335 * -7 - 0.15430335 * 5j, 0.15430335 * -7 - 0.15430335 * 3j, 0.15430335 * -7 - 0.15430335 * 1j, 0.15430335 * -7 + 0.15430335 * 1j, 0.15430335 * -7 + 0.15430335 * 3j, 0.15430335 * -7 + 0.15430335 * 5j, 0.15430335 * -7 + 0.15430335 * 7j, 0.15430335 * -5 - 0.15430335 * 7j, 0.15430335 * -5 - 0.15430335 * 5j, 0.15430335 * -5 - 0.15430335 * 3j, 0.15430335 * -5 - 0.15430335 * 1j, 0.15430335 * -5 + 0.15430335 * 1j, 0.15430335 * -5 +
@@ -99,59 +99,73 @@ class lab2_3(gr.top_block, Qt.QWidget):
         self._cfo_range = Range(0, 100e3, 10, 0.0, 200)
         self._cfo_win = RangeWidget(self._cfo_range, self.set_cfo, 'Carrier Frequency Offset (Hz)', "counter_slider", float)
         self.top_grid_layout.addWidget(self._cfo_win)
-        self.qtgui_freq_sink_x_0 = qtgui.freq_sink_c(
+        self.qtgui_const_sink_x_0 = qtgui.const_sink_c(
             1024, #size
-            firdes.WIN_BLACKMAN_hARRIS, #wintype
-            2e3, #fc
-            samp_rate, #bw
             "", #name
-            2
+            4 #number of inputs
         )
-        self.qtgui_freq_sink_x_0.set_update_time(0.10)
-        self.qtgui_freq_sink_x_0.set_y_axis(-140, 10)
-        self.qtgui_freq_sink_x_0.set_y_label('Relative Gain', 'dB')
-        self.qtgui_freq_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, 0.0, 0, "")
-        self.qtgui_freq_sink_x_0.enable_autoscale(False)
-        self.qtgui_freq_sink_x_0.enable_grid(False)
-        self.qtgui_freq_sink_x_0.set_fft_average(1.0)
-        self.qtgui_freq_sink_x_0.enable_axis_labels(True)
-        self.qtgui_freq_sink_x_0.enable_control_panel(False)
+        self.qtgui_const_sink_x_0.set_update_time(0.10)
+        self.qtgui_const_sink_x_0.set_y_axis(-2, 2)
+        self.qtgui_const_sink_x_0.set_x_axis(-2, 2)
+        self.qtgui_const_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, "")
+        self.qtgui_const_sink_x_0.enable_autoscale(False)
+        self.qtgui_const_sink_x_0.enable_grid(True)
+        self.qtgui_const_sink_x_0.enable_axis_labels(True)
 
 
-
-        labels = ['qam 16', '8psk', '', '', '',
+        labels = ['bpsk', 'qpsk', 'qam 16', 'qam 64', '',
             '', '', '', '', '']
         widths = [1, 1, 1, 1, 1,
             1, 1, 1, 1, 1]
-        colors = ["blue", "red", "green", "black", "cyan",
-            "magenta", "yellow", "dark red", "dark green", "dark blue"]
+        colors = ["blue", "cyan", "yellow", "green", "red",
+            "red", "red", "red", "red", "red"]
+        styles = [0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0]
+        markers = [0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0]
         alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
             1.0, 1.0, 1.0, 1.0, 1.0]
 
-        for i in range(2):
+        for i in range(4):
             if len(labels[i]) == 0:
-                self.qtgui_freq_sink_x_0.set_line_label(i, "Data {0}".format(i))
+                self.qtgui_const_sink_x_0.set_line_label(i, "Data {0}".format(i))
             else:
-                self.qtgui_freq_sink_x_0.set_line_label(i, labels[i])
-            self.qtgui_freq_sink_x_0.set_line_width(i, widths[i])
-            self.qtgui_freq_sink_x_0.set_line_color(i, colors[i])
-            self.qtgui_freq_sink_x_0.set_line_alpha(i, alphas[i])
+                self.qtgui_const_sink_x_0.set_line_label(i, labels[i])
+            self.qtgui_const_sink_x_0.set_line_width(i, widths[i])
+            self.qtgui_const_sink_x_0.set_line_color(i, colors[i])
+            self.qtgui_const_sink_x_0.set_line_style(i, styles[i])
+            self.qtgui_const_sink_x_0.set_line_marker(i, markers[i])
+            self.qtgui_const_sink_x_0.set_line_alpha(i, alphas[i])
 
-        self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.pyqwidget(), Qt.QWidget)
-        self.top_grid_layout.addWidget(self._qtgui_freq_sink_x_0_win)
-        self.digital_chunks_to_symbols_xx_0_0 = digital.chunks_to_symbols_bc(constellation_qam_16, 1)
-        self.digital_chunks_to_symbols_xx_0 = digital.chunks_to_symbols_bc(constellation_8psk, 1)
+        self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.pyqwidget(), Qt.QWidget)
+        self.top_grid_layout.addWidget(self._qtgui_const_sink_x_0_win)
+        self.digital_chunks_to_symbols_xx_0_0_0_0 = digital.chunks_to_symbols_bc(constellation_qam_64_norm, 1)
+        self.digital_chunks_to_symbols_xx_0_0_0 = digital.chunks_to_symbols_bc(constellation_qam_16_norm, 1)
+        self.digital_chunks_to_symbols_xx_0_0 = digital.chunks_to_symbols_bc(constellation_qpsk_norm, 1)
+        self.digital_chunks_to_symbols_xx_0 = digital.chunks_to_symbols_bc(constellation_bpsk, 1)
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
-        self.blocks_packed_to_unpacked_xx_0_0 = blocks.packed_to_unpacked_bb(mod_order, gr.GR_MSB_FIRST)
-        self.blocks_packed_to_unpacked_xx_0 = blocks.packed_to_unpacked_bb(3, gr.GR_MSB_FIRST)
+        self.blocks_packed_to_unpacked_xx_0_0_0_0 = blocks.packed_to_unpacked_bb(6, gr.GR_MSB_FIRST)
+        self.blocks_packed_to_unpacked_xx_0_0_0 = blocks.packed_to_unpacked_bb(4, gr.GR_MSB_FIRST)
+        self.blocks_packed_to_unpacked_xx_0_0 = blocks.packed_to_unpacked_bb(2, gr.GR_MSB_FIRST)
+        self.blocks_packed_to_unpacked_xx_0 = blocks.packed_to_unpacked_bb(1, gr.GR_MSB_FIRST)
+        self.blocks_multiply_xx_0_0_0_0 = blocks.multiply_vcc(1)
+        self.blocks_multiply_xx_0_0_0 = blocks.multiply_vcc(1)
         self.blocks_multiply_xx_0_0 = blocks.multiply_vcc(1)
         self.blocks_multiply_xx_0 = blocks.multiply_vcc(1)
+        self.blocks_add_xx_0_0_0_0 = blocks.add_vcc(1)
+        self.blocks_add_xx_0_0_0 = blocks.add_vcc(1)
         self.blocks_add_xx_0_0 = blocks.add_vcc(1)
         self.blocks_add_xx_0 = blocks.add_vcc(1)
+        self.analog_sig_source_x_0_0_0_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, cfo, 1, 0, 0)
+        self.analog_sig_source_x_0_0_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, cfo, 1, 0, 0)
         self.analog_sig_source_x_0_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, cfo, 1, 0, 0)
         self.analog_sig_source_x_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, cfo, 1, 0, 0)
+        self.analog_random_source_x_0_0_0_0 = blocks.vector_source_b(list(map(int, numpy.random.randint(0, 255, 1000))), True)
+        self.analog_random_source_x_0_0_0 = blocks.vector_source_b(list(map(int, numpy.random.randint(0, 255, 1000))), True)
         self.analog_random_source_x_0_0 = blocks.vector_source_b(list(map(int, numpy.random.randint(0, 255, 1000))), True)
         self.analog_random_source_x_0 = blocks.vector_source_b(list(map(int, numpy.random.randint(0, 255, 1000))), True)
+        self.analog_noise_source_x_0_0_0_0 = analog.noise_source_c(analog.GR_GAUSSIAN, noise, 0)
+        self.analog_noise_source_x_0_0_0 = analog.noise_source_c(analog.GR_GAUSSIAN, noise, 0)
         self.analog_noise_source_x_0_0 = analog.noise_source_c(analog.GR_GAUSSIAN, noise, 0)
         self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, noise, 0)
 
@@ -162,19 +176,33 @@ class lab2_3(gr.top_block, Qt.QWidget):
         ##################################################
         self.connect((self.analog_noise_source_x_0, 0), (self.blocks_add_xx_0, 1))
         self.connect((self.analog_noise_source_x_0_0, 0), (self.blocks_add_xx_0_0, 1))
+        self.connect((self.analog_noise_source_x_0_0_0, 0), (self.blocks_add_xx_0_0_0, 1))
+        self.connect((self.analog_noise_source_x_0_0_0_0, 0), (self.blocks_add_xx_0_0_0_0, 1))
         self.connect((self.analog_random_source_x_0, 0), (self.blocks_packed_to_unpacked_xx_0, 0))
         self.connect((self.analog_random_source_x_0_0, 0), (self.blocks_packed_to_unpacked_xx_0_0, 0))
+        self.connect((self.analog_random_source_x_0_0_0, 0), (self.blocks_packed_to_unpacked_xx_0_0_0, 0))
+        self.connect((self.analog_random_source_x_0_0_0_0, 0), (self.blocks_packed_to_unpacked_xx_0_0_0_0, 0))
         self.connect((self.analog_sig_source_x_0, 0), (self.blocks_multiply_xx_0, 1))
         self.connect((self.analog_sig_source_x_0_0, 0), (self.blocks_multiply_xx_0_0, 1))
+        self.connect((self.analog_sig_source_x_0_0_0, 0), (self.blocks_multiply_xx_0_0_0, 1))
+        self.connect((self.analog_sig_source_x_0_0_0_0, 0), (self.blocks_multiply_xx_0_0_0_0, 1))
         self.connect((self.blocks_add_xx_0, 0), (self.blocks_multiply_xx_0, 0))
         self.connect((self.blocks_add_xx_0_0, 0), (self.blocks_multiply_xx_0_0, 0))
+        self.connect((self.blocks_add_xx_0_0_0, 0), (self.blocks_multiply_xx_0_0_0, 0))
+        self.connect((self.blocks_add_xx_0_0_0_0, 0), (self.blocks_multiply_xx_0_0_0_0, 0))
         self.connect((self.blocks_multiply_xx_0, 0), (self.blocks_throttle_0, 0))
-        self.connect((self.blocks_multiply_xx_0_0, 0), (self.qtgui_freq_sink_x_0, 0))
+        self.connect((self.blocks_multiply_xx_0_0, 0), (self.qtgui_const_sink_x_0, 1))
+        self.connect((self.blocks_multiply_xx_0_0_0, 0), (self.qtgui_const_sink_x_0, 2))
+        self.connect((self.blocks_multiply_xx_0_0_0_0, 0), (self.qtgui_const_sink_x_0, 3))
         self.connect((self.blocks_packed_to_unpacked_xx_0, 0), (self.digital_chunks_to_symbols_xx_0, 0))
         self.connect((self.blocks_packed_to_unpacked_xx_0_0, 0), (self.digital_chunks_to_symbols_xx_0_0, 0))
-        self.connect((self.blocks_throttle_0, 0), (self.qtgui_freq_sink_x_0, 1))
+        self.connect((self.blocks_packed_to_unpacked_xx_0_0_0, 0), (self.digital_chunks_to_symbols_xx_0_0_0, 0))
+        self.connect((self.blocks_packed_to_unpacked_xx_0_0_0_0, 0), (self.digital_chunks_to_symbols_xx_0_0_0_0, 0))
+        self.connect((self.blocks_throttle_0, 0), (self.qtgui_const_sink_x_0, 0))
         self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.blocks_add_xx_0, 0))
         self.connect((self.digital_chunks_to_symbols_xx_0_0, 0), (self.blocks_add_xx_0_0, 0))
+        self.connect((self.digital_chunks_to_symbols_xx_0_0_0, 0), (self.blocks_add_xx_0_0_0, 0))
+        self.connect((self.digital_chunks_to_symbols_xx_0_0_0_0, 0), (self.blocks_add_xx_0_0_0_0, 0))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "lab2_3")
@@ -188,8 +216,9 @@ class lab2_3(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate
         self.analog_sig_source_x_0.set_sampling_freq(self.samp_rate)
         self.analog_sig_source_x_0_0.set_sampling_freq(self.samp_rate)
+        self.analog_sig_source_x_0_0_0.set_sampling_freq(self.samp_rate)
+        self.analog_sig_source_x_0_0_0_0.set_sampling_freq(self.samp_rate)
         self.blocks_throttle_0.set_sample_rate(self.samp_rate)
-        self.qtgui_freq_sink_x_0.set_frequency_range(2e3, self.samp_rate)
 
     def get_noise(self):
         return self.noise
@@ -198,6 +227,8 @@ class lab2_3(gr.top_block, Qt.QWidget):
         self.noise = noise
         self.analog_noise_source_x_0.set_amplitude(self.noise)
         self.analog_noise_source_x_0_0.set_amplitude(self.noise)
+        self.analog_noise_source_x_0_0_0.set_amplitude(self.noise)
+        self.analog_noise_source_x_0_0_0_0.set_amplitude(self.noise)
 
     def get_mod_order(self):
         return self.mod_order
@@ -210,6 +241,7 @@ class lab2_3(gr.top_block, Qt.QWidget):
 
     def set_constellation_qpsk_norm(self, constellation_qpsk_norm):
         self.constellation_qpsk_norm = constellation_qpsk_norm
+        self.digital_chunks_to_symbols_xx_0_0.set_symbol_table(self.constellation_qpsk_norm)
 
     def get_constellation_qpsk(self):
         return self.constellation_qpsk
@@ -222,6 +254,7 @@ class lab2_3(gr.top_block, Qt.QWidget):
 
     def set_constellation_qam_64_norm(self, constellation_qam_64_norm):
         self.constellation_qam_64_norm = constellation_qam_64_norm
+        self.digital_chunks_to_symbols_xx_0_0_0_0.set_symbol_table(self.constellation_qam_64_norm)
 
     def get_constellation_qam_64(self):
         return self.constellation_qam_64
@@ -234,26 +267,26 @@ class lab2_3(gr.top_block, Qt.QWidget):
 
     def set_constellation_qam_16_norm(self, constellation_qam_16_norm):
         self.constellation_qam_16_norm = constellation_qam_16_norm
+        self.digital_chunks_to_symbols_xx_0_0_0.set_symbol_table(self.constellation_qam_16_norm)
 
     def get_constellation_qam_16(self):
         return self.constellation_qam_16
 
     def set_constellation_qam_16(self, constellation_qam_16):
         self.constellation_qam_16 = constellation_qam_16
-        self.digital_chunks_to_symbols_xx_0_0.set_symbol_table(self.constellation_qam_16)
 
     def get_constellation_bpsk(self):
         return self.constellation_bpsk
 
     def set_constellation_bpsk(self, constellation_bpsk):
         self.constellation_bpsk = constellation_bpsk
+        self.digital_chunks_to_symbols_xx_0.set_symbol_table(self.constellation_bpsk)
 
     def get_constellation_8psk(self):
         return self.constellation_8psk
 
     def set_constellation_8psk(self, constellation_8psk):
         self.constellation_8psk = constellation_8psk
-        self.digital_chunks_to_symbols_xx_0.set_symbol_table(self.constellation_8psk)
 
     def get_cfo(self):
         return self.cfo
@@ -262,6 +295,8 @@ class lab2_3(gr.top_block, Qt.QWidget):
         self.cfo = cfo
         self.analog_sig_source_x_0.set_frequency(self.cfo)
         self.analog_sig_source_x_0_0.set_frequency(self.cfo)
+        self.analog_sig_source_x_0_0_0.set_frequency(self.cfo)
+        self.analog_sig_source_x_0_0_0_0.set_frequency(self.cfo)
 
 
 
