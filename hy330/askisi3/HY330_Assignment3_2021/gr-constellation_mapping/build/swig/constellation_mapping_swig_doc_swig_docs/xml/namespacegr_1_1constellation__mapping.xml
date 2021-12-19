@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespacegr_1_1constellation__mapping" kind="namespace" language="C++">
+    <compoundname>gr::constellation_mapping</compoundname>
+    <innerclass refid="classgr_1_1constellation__mapping_1_1constellation__mapping" prot="public">gr::constellation_mapping::constellation_mapping</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/gkokol/Documents/GitHub/hy330_telecomunications/hy330/askisi3/HY330_Assignment3_2021/gr-constellation_mapping/include/constellation_mapping/constellation_mapping.h" line="28" column="33"/>
+  </compounddef>
+</doxygen>

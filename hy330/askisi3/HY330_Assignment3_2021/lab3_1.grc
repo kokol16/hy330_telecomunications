@@ -64,8 +64,8 @@ blocks:
     rangeType: float
     start: '0'
     step: 1e3
-    stop: 10e3
-    value: 1e3
+    stop: 20e3
+    value: 10e3
     widget: counter_slider
   states:
     bus_sink: false
@@ -138,7 +138,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [210, 566]
+    coordinate: [310, 660]
     rotation: 0
     state: true
 - name: analog_const_source_x_1_0
@@ -217,7 +217,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [886, 575]
+    coordinate: [825, 612]
     rotation: 0
     state: true
 - name: blocks_add_xx_0
@@ -252,7 +252,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [230, 422]
+    coordinate: [104, 564]
     rotation: 0
     state: true
 - name: blocks_multiply_xx_0
@@ -288,7 +288,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1141, 413]
+    coordinate: [1072, 370]
     rotation: 0
     state: true
 - name: blocks_multiply_xx_0_0_0
@@ -306,7 +306,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1219, 561]
+    coordinate: [1091, 611]
     rotation: 0
     state: true
 - name: blocks_repeat_0
@@ -342,7 +342,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [415, 418]
+    coordinate: [469, 343]
     rotation: 0
     state: true
 - name: blocks_throttle_0
@@ -504,15 +504,15 @@ blocks:
     interp: '1'
     maxoutbuf: '0'
     minoutbuf: '0'
-    ntaps: 11* 24
-    samp_rate: '24'
-    sym_rate: '1.0'
+    ntaps: '10'
+    samp_rate: 192e3
+    sym_rate: '2'
     type: fir_filter_fff
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1320, 420]
+    coordinate: [1209, 522]
     rotation: 0
     state: true
 
