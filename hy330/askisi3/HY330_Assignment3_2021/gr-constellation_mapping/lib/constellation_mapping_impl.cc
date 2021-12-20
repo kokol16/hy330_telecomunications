@@ -61,8 +61,15 @@ namespace gr
     {
       const unsigned char *in = (const unsigned char *)input_items[0];
       gr_complex *out = (gr_complex *)output_items[0];
+      
+      for (int i=0; i<4; i++)
+      {
+          out[i].imag(i+i+1);
+          out[i].real(-i+i-1);
+      }
       for (int i = 0; i < noutput_items; ++i)
       {
+
         if (in[i] == 0)
         {
 

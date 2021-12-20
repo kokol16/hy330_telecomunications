@@ -32,6 +32,18 @@ options:
     state: enabled
 
 blocks:
+- name: constelation_mod
+  id: variable
+  parameters:
+    comment: ''
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [604, 72]
+    rotation: 0
+    state: true
 - name: samp_rate
   id: variable
   parameters:
@@ -91,7 +103,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    k: '1'
+    k: constelation_mod
     maxoutbuf: '0'
     minoutbuf: '0'
   states:
@@ -107,7 +119,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    k: '1'
+    k: constelation_mod
     maxoutbuf: '0'
     minoutbuf: '0'
   states:

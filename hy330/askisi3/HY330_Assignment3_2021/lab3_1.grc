@@ -168,7 +168,7 @@ blocks:
     maxoutbuf: '0'
     min: '0'
     minoutbuf: '0'
-    num_samps: '9600'
+    num_samps: '1000'
     repeat: 'True'
     type: byte
   states:
@@ -188,7 +188,7 @@ blocks:
     maxoutbuf: '0'
     min: '0'
     minoutbuf: '0'
-    num_samps: '9600'
+    num_samps: '1000'
     repeat: 'True'
     type: byte
   states:
@@ -252,7 +252,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [104, 564]
+    coordinate: [283, 546]
     rotation: 0
     state: true
 - name: blocks_multiply_xx_0
@@ -315,7 +315,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    interp: '10'
+    interp: '20'
     maxoutbuf: '0'
     minoutbuf: '0'
     type: byte
@@ -324,7 +324,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [474, 228]
+    coordinate: [474, 227]
     rotation: 0
     state: true
 - name: blocks_repeat_0_0
@@ -333,7 +333,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    interp: '10'
+    interp: '20'
     maxoutbuf: '0'
     minoutbuf: '0'
     type: float
@@ -392,7 +392,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [83, 426]
+    coordinate: [243, 382]
     rotation: 0
     state: true
 - name: qtgui_time_sink_x_0
