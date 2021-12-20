@@ -21,7 +21,7 @@
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
-
+#include <stdio.h>
 #include <gnuradio/io_signature.h>
 #include "constellation_mapping_impl.h"
 
@@ -62,14 +62,15 @@ namespace gr
       const unsigned char *in = (const unsigned char *)input_items[0];
       gr_complex *out = (gr_complex *)output_items[0];
       
-      for (int i=0; i<4; i++)
+      /*for (int i=0; i<4; i++)
       {
           out[i].imag(i+i+1);
           out[i].real(-i+i-1);
-      }
+      }*/
       for (int i = 0; i < noutput_items; ++i)
       {
-
+        printf("%c\n",in[i]);
+        /*
         if (in[i] == 0)
         {
 
@@ -81,7 +82,7 @@ namespace gr
 
           out[i].imag(0);
           out[i].real(1);
-        }
+        }*/
       }
 
       // Tell runtime system how many output items we produced.
