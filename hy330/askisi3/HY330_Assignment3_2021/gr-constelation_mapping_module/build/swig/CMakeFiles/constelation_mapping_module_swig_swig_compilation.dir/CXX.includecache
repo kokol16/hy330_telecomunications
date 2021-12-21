@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/gkokol/Documents/GitHub/hy330_telecomunications/hy330/askisi3/HY330_Assignment3_2021/gr-constelation_mapping_module/swig/constelation_mapping_module_swig.i
+gnuradio.i
+/home/gkokol/Documents/GitHub/hy330_telecomunications/hy330/askisi3/HY330_Assignment3_2021/gr-constelation_mapping_module/swig/gnuradio.i
+constelation_mapping_module_swig_doc.i
+/home/gkokol/Documents/GitHub/hy330_telecomunications/hy330/askisi3/HY330_Assignment3_2021/gr-constelation_mapping_module/swig/constelation_mapping_module_swig_doc.i
+constelation_mapping_module/constelation_mapping.h
+/home/gkokol/Documents/GitHub/hy330_telecomunications/hy330/askisi3/HY330_Assignment3_2021/gr-constelation_mapping_module/swig/constelation_mapping_module/constelation_mapping.h
+constelation_mapping_module/constelation_mapping.h
+/home/gkokol/Documents/GitHub/hy330_telecomunications/hy330/askisi3/HY330_Assignment3_2021/gr-constelation_mapping_module/swig/constelation_mapping_module/constelation_mapping.h
+

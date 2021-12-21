@@ -24,8 +24,8 @@ if __name__ == '__main__':
 from PyQt5 import Qt
 from gnuradio import qtgui
 import sip
-from gnuradio import analog
 from gnuradio import blocks
+import pmt
 from gnuradio import gr
 from gnuradio.filter import firdes
 import sys
@@ -33,7 +33,7 @@ import signal
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
-import constellation_mapping
+import constelation_mapping_module
 from gnuradio import qtgui
 
 class gk(gr.top_block, Qt.QWidget):
@@ -73,6 +73,7 @@ class gk(gr.top_block, Qt.QWidget):
         # Variables
         ##################################################
         self.samp_rate = samp_rate = 32000
+        self.constelation_mod = constelation_mod = 4
 
         ##################################################
         # Blocks
@@ -117,20 +118,21 @@ class gk(gr.top_block, Qt.QWidget):
 
         self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.pyqwidget(), Qt.QWidget)
         self.top_grid_layout.addWidget(self._qtgui_const_sink_x_0_win)
-        self.constellation_mapping_constellation_mapping_0 = constellation_mapping.constellation_mapping()
-        self.blocks_unpack_k_bits_bb_0 = blocks.unpack_k_bits_bb(1)
+        self.constelation_mapping_module_constelation_mapping_0 = constelation_mapping_module.constelation_mapping(constelation_mod)
+        self.blocks_unpack_k_bits_bb_0 = blocks.unpack_k_bits_bb(constelation_mod)
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
-        self.analog_sig_source_x_0 = analog.sig_source_b(samp_rate, analog.GR_COS_WAVE, 1000, 1, 0, 0)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, '/home/gkokol/Documents/GitHub/hy330_telecomunications/hy330/askisi3/HY330_Assignment3_2021/test.dat', True, 0, 0)
+        self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
 
 
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.analog_sig_source_x_0, 0), (self.blocks_unpack_k_bits_bb_0, 0))
+        self.connect((self.blocks_file_source_0, 0), (self.blocks_unpack_k_bits_bb_0, 0))
         self.connect((self.blocks_throttle_0, 0), (self.qtgui_const_sink_x_0, 0))
-        self.connect((self.blocks_unpack_k_bits_bb_0, 0), (self.constellation_mapping_constellation_mapping_0, 0))
-        self.connect((self.constellation_mapping_constellation_mapping_0, 0), (self.blocks_throttle_0, 0))
+        self.connect((self.blocks_unpack_k_bits_bb_0, 0), (self.constelation_mapping_module_constelation_mapping_0, 0))
+        self.connect((self.constelation_mapping_module_constelation_mapping_0, 0), (self.blocks_throttle_0, 0))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "gk")
@@ -142,8 +144,13 @@ class gk(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.analog_sig_source_x_0.set_sampling_freq(self.samp_rate)
         self.blocks_throttle_0.set_sample_rate(self.samp_rate)
+
+    def get_constelation_mod(self):
+        return self.constelation_mod
+
+    def set_constelation_mod(self, constelation_mod):
+        self.constelation_mod = constelation_mod
 
 
 

@@ -36,7 +36,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '1'
+    value: '4'
   states:
     bus_sink: false
     bus_source: false
@@ -56,26 +56,26 @@ blocks:
     coordinate: [184, 12]
     rotation: 0
     state: enabled
-- name: analog_sig_source_x_0
-  id: analog_sig_source_x
+- name: blocks_file_source_0
+  id: blocks_file_source
   parameters:
     affinity: ''
     alias: ''
-    amp: '1'
+    begin_tag: pmt.PMT_NIL
     comment: ''
-    freq: '1000'
+    file: /home/gkokol/Documents/GitHub/hy330_telecomunications/hy330/askisi3/HY330_Assignment3_2021/test.dat
+    length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
     offset: '0'
-    phase: '0'
-    samp_rate: samp_rate
+    repeat: 'True'
     type: byte
-    waveform: analog.GR_COS_WAVE
+    vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [194, 474]
+    coordinate: [106, 474]
     rotation: 0
     state: true
 - name: blocks_throttle_0
@@ -94,7 +94,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [674, 547]
+    coordinate: [842, 543]
     rotation: 0
     state: true
 - name: blocks_unpack_k_bits_bb_0
@@ -110,23 +110,23 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [191, 145]
+    coordinate: [372, 403]
     rotation: 0
     state: true
-- name: constellation_mapping_constellation_mapping_0
-  id: constellation_mapping_constellation_mapping
+- name: constelation_mapping_module_constelation_mapping_0
+  id: constelation_mapping_module_constelation_mapping
   parameters:
+    _k: constelation_mod
     affinity: ''
     alias: ''
     comment: ''
-    k: constelation_mod
     maxoutbuf: '0'
     minoutbuf: '0'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [529, 153]
+    coordinate: [604, 406]
     rotation: 0
     state: true
 - name: qtgui_const_sink_x_0
@@ -218,16 +218,16 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [997, 208]
+    coordinate: [1005, 252]
     rotation: 0
     state: true
 
 connections:
-- [analog_sig_source_x_0, '0', blocks_unpack_k_bits_bb_0, '0']
+- [blocks_file_source_0, '0', blocks_unpack_k_bits_bb_0, '0']
 - [blocks_throttle_0, '0', qtgui_const_sink_x_0, '0']
-- [blocks_unpack_k_bits_bb_0, '0', constellation_mapping_constellation_mapping_0,
+- [blocks_unpack_k_bits_bb_0, '0', constelation_mapping_module_constelation_mapping_0,
   '0']
-- [constellation_mapping_constellation_mapping_0, '0', blocks_throttle_0, '0']
+- [constelation_mapping_module_constelation_mapping_0, '0', blocks_throttle_0, '0']
 
 metadata:
   file_format: 1

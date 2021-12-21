@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classgr_1_1constelation__mapping__module_1_1constelation__mapping" kind="class" language="C++" prot="public">
+    <compoundname>gr::constelation_mapping_module::constelation_mapping</compoundname>
+    <basecompoundref prot="public" virt="virtual">sync_block</basecompoundref>
+    <derivedcompoundref refid="classgr_1_1constelation__mapping__module_1_1constelation__mapping__impl" prot="public" virt="non-virtual">gr::constelation_mapping_module::constelation_mapping_impl</derivedcompoundref>
+    <includes refid="constelation__mapping_8h" local="no">constelation_mapping.h</includes>
+      <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classgr_1_1constelation__mapping__module_1_1constelation__mapping_1a3f4df21551f61c2fc7fcd3bec8250d98" prot="public" static="no">
+        <type>boost::shared_ptr&lt; <ref refid="classgr_1_1constelation__mapping__module_1_1constelation__mapping" kindref="compound">constelation_mapping</ref> &gt;</type>
+        <definition>typedef boost::shared_ptr&lt;constelation_mapping&gt; gr::constelation_mapping_module::constelation_mapping::sptr</definition>
+        <argsstring></argsstring>
+        <name>sptr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/gkokol/Documents/GitHub/hy330_telecomunications/hy330/askisi3/HY330_Assignment3_2021/gr-constelation_mapping_module/include/constelation_mapping_module/constelation_mapping.h" line="38" column="33" bodyfile="/home/gkokol/Documents/GitHub/hy330_telecomunications/hy330/askisi3/HY330_Assignment3_2021/gr-constelation_mapping_module/include/constelation_mapping_module/constelation_mapping.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classgr_1_1constelation__mapping__module_1_1constelation__mapping_1a9fff6bd124aa4c28069198d62ae45fcb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classgr_1_1constelation__mapping__module_1_1constelation__mapping_1a3f4df21551f61c2fc7fcd3bec8250d98" kindref="member">sptr</ref></type>
+        <definition>static sptr gr::constelation_mapping_module::constelation_mapping::make</definition>
+        <argsstring>(int _k)</argsstring>
+        <name>make</name>
+        <param>
+          <type>int</type>
+          <declname>_k</declname>
+        </param>
+        <briefdescription>
+<para>Return a shared_ptr to a new instance of <ref refid="classgr_1_1constelation__mapping__module_1_1constelation__mapping" kindref="compound">constelation_mapping_module::constelation_mapping</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>To avoid accidental use of raw pointers, <ref refid="classgr_1_1constelation__mapping__module_1_1constelation__mapping" kindref="compound">constelation_mapping_module::constelation_mapping</ref>&apos;s constructor is in a private implementation class. <ref refid="classgr_1_1constelation__mapping__module_1_1constelation__mapping_1a9fff6bd124aa4c28069198d62ae45fcb" kindref="member">constelation_mapping_module::constelation_mapping::make</ref> is the public interface for creating new instances. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/gkokol/Documents/GitHub/hy330_telecomunications/hy330/askisi3/HY330_Assignment3_2021/gr-constelation_mapping_module/include/constelation_mapping_module/constelation_mapping.h" line="48" column="19"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>&lt;+description of block+&gt; </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>gr::constelation_mapping_module::constelation_mapping</label>
+        <link refid="classgr_1_1constelation__mapping__module_1_1constelation__mapping"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>gr::constelation_mapping_module::constelation_mapping_impl</label>
+        <link refid="classgr_1_1constelation__mapping__module_1_1constelation__mapping__impl"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gr::sync_block</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>gr::constelation_mapping_module::constelation_mapping</label>
+        <link refid="classgr_1_1constelation__mapping__module_1_1constelation__mapping"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gr::sync_block</label>
+      </node>
+    </collaborationgraph>
+    <location file="/home/gkokol/Documents/GitHub/hy330_telecomunications/hy330/askisi3/HY330_Assignment3_2021/gr-constelation_mapping_module/include/constelation_mapping_module/constelation_mapping.h" line="36" column="1" bodyfile="/home/gkokol/Documents/GitHub/hy330_telecomunications/hy330/askisi3/HY330_Assignment3_2021/gr-constelation_mapping_module/include/constelation_mapping_module/constelation_mapping.h" bodystart="35" bodyend="49"/>
+    <listofallmembers>
+      <member refid="classgr_1_1constelation__mapping__module_1_1constelation__mapping_1a9fff6bd124aa4c28069198d62ae45fcb" prot="public" virt="non-virtual"><scope>gr::constelation_mapping_module::constelation_mapping</scope><name>make</name></member>
+      <member refid="classgr_1_1constelation__mapping__module_1_1constelation__mapping_1a3f4df21551f61c2fc7fcd3bec8250d98" prot="public" virt="non-virtual"><scope>gr::constelation_mapping_module::constelation_mapping</scope><name>sptr</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

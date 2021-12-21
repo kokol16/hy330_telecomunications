@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.8.17">
+  <compound refid="classgr_1_1constelation__mapping__module_1_1constelation__mapping" kind="class"><name>gr::constelation_mapping_module::constelation_mapping</name>
+    <member refid="classgr_1_1constelation__mapping__module_1_1constelation__mapping_1a3f4df21551f61c2fc7fcd3bec8250d98" kind="typedef"><name>sptr</name></member>
+    <member refid="classgr_1_1constelation__mapping__module_1_1constelation__mapping_1a9fff6bd124aa4c28069198d62ae45fcb" kind="function"><name>make</name></member>
+  </compound>
+  <compound refid="namespacegr" kind="namespace"><name>gr</name>
+  </compound>
+  <compound refid="namespacegr_1_1constelation__mapping__module" kind="namespace"><name>gr::constelation_mapping_module</name>
+  </compound>
+  <compound refid="namespacestd" kind="namespace"><name>std</name>
+  </compound>
+  <compound refid="api_8h" kind="file"><name>api.h</name>
+    <member refid="api_8h_1a7c19a124a1e9ad9672b4ac6861af4b0d" kind="define"><name>CONSTELATION_MAPPING_MODULE_API</name></member>
+  </compound>
+  <compound refid="constelation__mapping_8h" kind="file"><name>constelation_mapping.h</name>
+  </compound>
+  <compound refid="dir_7eeb05905d9cc03d682a85e439f04b33" kind="dir"><name>constelation_mapping_module</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>include</name>
+  </compound>
+</doxygenindex>
