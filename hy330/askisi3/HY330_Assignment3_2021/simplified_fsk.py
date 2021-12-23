@@ -79,6 +79,14 @@ class simplified_fsk(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
+        self.root_raised_cosine_filter_0_0_0_0 = filter.fir_filter_ccf(
+            1,
+            firdes.root_raised_cosine(
+                1,
+                192e3,
+                2,
+                0.35,
+                505))
         self.root_raised_cosine_filter_0_0_0 = filter.fir_filter_ccf(
             1,
             firdes.root_raised_cosine(
@@ -86,7 +94,7 @@ class simplified_fsk(gr.top_block, Qt.QWidget):
                 192e3,
                 2,
                 0.35,
-                20))
+                505))
         self.root_raised_cosine_filter_0_0 = filter.fir_filter_ccf(
             1,
             firdes.root_raised_cosine(
@@ -211,9 +219,10 @@ class simplified_fsk(gr.top_block, Qt.QWidget):
         self.connect((self.analog_frequency_modulator_fc_0, 0), (self.root_raised_cosine_filter_0_0, 0))
         self.connect((self.analog_random_source_x_0, 0), (self.blocks_throttle_0, 0))
         self.connect((self.analog_random_source_x_0_0, 0), (self.blocks_uchar_to_float_0_0, 0))
-        self.connect((self.analog_sig_source_x_0, 0), (self.blocks_throttle_1, 0))
-        self.connect((self.analog_sig_source_x_0_0, 0), (self.blocks_multiply_xx_0_0, 1))
-        self.connect((self.blocks_add_xx_0, 0), (self.root_raised_cosine_filter_0_0_0, 0))
+        self.connect((self.analog_sig_source_x_0, 0), (self.root_raised_cosine_filter_0_0_0, 0))
+        self.connect((self.analog_sig_source_x_0_0, 0), (self.root_raised_cosine_filter_0_0_0_0, 0))
+        self.connect((self.blocks_add_xx_0, 0), (self.qtgui_freq_sink_x_0, 0))
+        self.connect((self.blocks_add_xx_0, 0), (self.qtgui_time_sink_x_1, 0))
         self.connect((self.blocks_float_to_complex_0, 0), (self.blocks_multiply_xx_0, 0))
         self.connect((self.blocks_float_to_complex_0, 0), (self.blocks_sub_xx_0, 1))
         self.connect((self.blocks_multiply_xx_0, 0), (self.blocks_add_xx_0, 0))
@@ -226,8 +235,8 @@ class simplified_fsk(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_uchar_to_float_0_0, 0), (self.analog_frequency_modulator_fc_0, 0))
         self.connect((self.root_raised_cosine_filter_0_0, 0), (self.qtgui_freq_sink_x_0, 1))
         self.connect((self.root_raised_cosine_filter_0_0, 0), (self.qtgui_time_sink_x_1, 1))
-        self.connect((self.root_raised_cosine_filter_0_0_0, 0), (self.qtgui_freq_sink_x_0, 0))
-        self.connect((self.root_raised_cosine_filter_0_0_0, 0), (self.qtgui_time_sink_x_1, 0))
+        self.connect((self.root_raised_cosine_filter_0_0_0, 0), (self.blocks_throttle_1, 0))
+        self.connect((self.root_raised_cosine_filter_0_0_0_0, 0), (self.blocks_multiply_xx_0_0, 1))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "simplified_fsk")
