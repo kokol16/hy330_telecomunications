@@ -70,7 +70,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [247, 365]
+    coordinate: [336, 332.0]
     rotation: 0
     state: true
 - name: analog_frequency_modulator_fc_0
@@ -86,7 +86,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [501, 676]
+    coordinate: [877, 713]
     rotation: 0
     state: true
 - name: analog_random_source_x_0
@@ -148,7 +148,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [23, 237]
+    coordinate: [48, 236.0]
     rotation: 0
     state: true
 - name: analog_sig_source_x_0_0
@@ -188,7 +188,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1152, 439]
+    coordinate: [960, 424.0]
     rotation: 0
     state: true
 - name: blocks_float_to_complex_0
@@ -204,7 +204,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [853, 65]
+    coordinate: [838, 27]
     rotation: 0
     state: true
 - name: blocks_multiply_xx_0
@@ -222,7 +222,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1136, 240]
+    coordinate: [984, 144.0]
     rotation: 0
     state: true
 - name: blocks_multiply_xx_0_0
@@ -240,7 +240,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [882, 444]
+    coordinate: [648, 440.0]
     rotation: 0
     state: true
 - name: blocks_repeat_0
@@ -314,7 +314,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [526, 251]
+    coordinate: [336, 276.0]
     rotation: 0
     state: true
 - name: blocks_uchar_to_float_0
@@ -521,7 +521,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1219, 688]
+    coordinate: [1103, 657]
     rotation: 0
     state: true
 - name: root_raised_cosine_filter_0_0
@@ -544,7 +544,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [731, 627]
+    coordinate: [450, 533]
     rotation: 0
     state: true
 - name: root_raised_cosine_filter_0_0_0
@@ -559,7 +559,7 @@ blocks:
     interp: '1'
     maxoutbuf: '0'
     minoutbuf: '0'
-    ntaps: '505'
+    ntaps: '10'
     samp_rate: 192e3
     sym_rate: '2'
     type: fir_filter_ccf
@@ -567,30 +567,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [248, 235]
-    rotation: 0
-    state: true
-- name: root_raised_cosine_filter_0_0_0_0
-  id: root_raised_cosine_filter
-  parameters:
-    affinity: ''
-    alias: ''
-    alpha: '0.35'
-    comment: ''
-    decim: '1'
-    gain: '1'
-    interp: '1'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    ntaps: '505'
-    samp_rate: 192e3
-    sym_rate: '2'
-    type: fir_filter_ccf
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [260, 437]
+    coordinate: [1135, 92]
     rotation: 0
     state: true
 
@@ -599,10 +576,9 @@ connections:
 - [analog_frequency_modulator_fc_0, '0', root_raised_cosine_filter_0_0, '0']
 - [analog_random_source_x_0, '0', blocks_throttle_0, '0']
 - [analog_random_source_x_0_0, '0', blocks_uchar_to_float_0_0, '0']
-- [analog_sig_source_x_0, '0', root_raised_cosine_filter_0_0_0, '0']
-- [analog_sig_source_x_0_0, '0', root_raised_cosine_filter_0_0_0_0, '0']
-- [blocks_add_xx_0, '0', qtgui_freq_sink_x_0, '0']
-- [blocks_add_xx_0, '0', qtgui_time_sink_x_1, '0']
+- [analog_sig_source_x_0, '0', blocks_throttle_1, '0']
+- [analog_sig_source_x_0_0, '0', blocks_multiply_xx_0_0, '1']
+- [blocks_add_xx_0, '0', root_raised_cosine_filter_0_0_0, '0']
 - [blocks_float_to_complex_0, '0', blocks_multiply_xx_0, '0']
 - [blocks_float_to_complex_0, '0', blocks_sub_xx_0, '1']
 - [blocks_multiply_xx_0, '0', blocks_add_xx_0, '0']
@@ -615,8 +591,8 @@ connections:
 - [blocks_uchar_to_float_0_0, '0', analog_frequency_modulator_fc_0, '0']
 - [root_raised_cosine_filter_0_0, '0', qtgui_freq_sink_x_0, '1']
 - [root_raised_cosine_filter_0_0, '0', qtgui_time_sink_x_1, '1']
-- [root_raised_cosine_filter_0_0_0, '0', blocks_throttle_1, '0']
-- [root_raised_cosine_filter_0_0_0_0, '0', blocks_multiply_xx_0_0, '1']
+- [root_raised_cosine_filter_0_0_0, '0', qtgui_freq_sink_x_0, '0']
+- [root_raised_cosine_filter_0_0_0, '0', qtgui_time_sink_x_1, '0']
 
 metadata:
   file_format: 1
