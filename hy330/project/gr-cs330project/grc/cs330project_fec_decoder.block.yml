@@ -1,0 +1,25 @@
+id: cs330project_fec_decoder
+label: FEC Decoder
+category: '[cs330project]'
+
+templates:
+  imports: import cs330project
+  make: cs330project.fec_decoder(${fec_type.val})
+
+parameters:
+- id: fec_type
+  label: FEC Type
+  dtype: enum
+  options: [No FEC, Hamming, Golay]
+  option_attributes:
+        val: [0, 1, 2]
+
+inputs:
+- domain: message
+  id: pdu_in
+  
+outputs:
+- domain: message
+  id: pdu_out
+
+file_format: 1

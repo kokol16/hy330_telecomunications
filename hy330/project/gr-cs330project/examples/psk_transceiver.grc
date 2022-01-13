@@ -1,0 +1,368 @@
+options:
+  parameters:
+    author: Manolis Surligas
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: psk_transceiver
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: PSK transceiver
+    window_size: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: bits_per_symbol
+  id: variable
+  parameters:
+    comment: Samples per symbol
+    value: int(math.log2(constellation.arity()))
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [896, 12.0]
+    rotation: 0
+    state: true
+- name: constellation
+  id: variable_constellation
+  parameters:
+    comment: ''
+    const_points: '[-1-1j, -1+1j, 1+1j, 1-1j]'
+    dims: '1'
+    precision: '8'
+    rot_sym: '4'
+    soft_dec_lut: None
+    sym_map: '[0, 1, 3, 2]'
+    type: bpsk
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [720, 12.0]
+    rotation: 0
+    state: true
+- name: nfilts
+  id: variable
+  parameters:
+    comment: ''
+    value: '32'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [384, 12.0]
+    rotation: 0
+    state: enabled
+- name: rrc_taps
+  id: variable
+  parameters:
+    comment: ''
+    value: firdes.root_raised_cosine(nfilts, nfilts, 1.0/float(sps), excess_bw, 11*sps*nfilts)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [544, 12.0]
+    rotation: 0
+    state: enabled
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: 1e6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [184, 12]
+    rotation: 0
+    state: enabled
+- name: sps
+  id: variable
+  parameters:
+    comment: Samples per symbol
+    value: '4'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1024, 12.0]
+    rotation: 0
+    state: true
+- name: blocks_message_debug_0
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [472, 872.0]
+    rotation: 180
+    state: enabled
+- name: blocks_message_strobe_random_0
+  id: blocks_message_strobe_random
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    dist: blocks.STROBE_UNIFORM
+    maxoutbuf: '0'
+    mean: '100'
+    minoutbuf: '0'
+    msg: pmt.intern("TEST")
+    std: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [56, 140.0]
+    rotation: 0
+    state: true
+- name: blocks_packed_to_unpacked_xx_0
+  id: blocks_packed_to_unpacked_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    bits_per_chunk: '1'
+    comment: ''
+    endianness: gr.GR_MSB_FIRST
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_ports: '1'
+    type: byte
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1021, 533]
+    rotation: 0
+    state: true
+- name: blocks_pdu_to_tagged_stream_0
+  id: blocks_pdu_to_tagged_stream
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    tag: packet_len
+    type: byte
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [757, 348]
+    rotation: 180
+    state: enabled
+- name: blocks_random_pdu_0
+  id: blocks_random_pdu
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    length_modulo: '2'
+    mask: '0xFF'
+    maxoutbuf: '0'
+    maxsize: '128'
+    minoutbuf: '0'
+    minsize: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [320, 140.0]
+    rotation: 0
+    state: true
+- name: blocks_socket_pdu_0
+  id: blocks_socket_pdu
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    host: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu: '10000'
+    port: '52001'
+    tcp_no_delay: 'False'
+    type: UDP_SERVER
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [368, 244.0]
+    rotation: 0
+    state: disabled
+- name: cs330project_fec_encoder_0
+  id: cs330project_fec_encoder
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fec_type: No FEC
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [728, 164.0]
+    rotation: 0
+    state: true
+- name: cs330project_frame_sync_0
+  id: cs330project_frame_sync
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mod: '0'
+    preamble: '0xAA'
+    preamble_len: '64'
+    sync_word: '[0x58, 0x9A]'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1144, 859]
+    rotation: 180
+    state: true
+- name: cs330project_framer_0
+  id: cs330project_framer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    preamble: '0xAA'
+    preamble_len: '64'
+    sync_word: '[0x58, 0x9A]'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1144, 148.0]
+    rotation: 0
+    state: true
+- name: cs330project_interleaver_0
+  id: cs330project_interleaver
+  parameters:
+    affinity: ''
+    alias: ''
+    block_size: '96'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [952, 164.0]
+    rotation: 0
+    state: true
+- name: digital_crc32_async_bb_0
+  id: digital_crc32_async_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    check: 'False'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [520, 164.0]
+    rotation: 0
+    state: enabled
+- name: digital_crc32_async_bb_0_0
+  id: digital_crc32_async_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    check: 'True'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [757, 931]
+    rotation: 180
+    state: enabled
+- name: excess_bw
+  id: parameter
+  parameters:
+    alias: ''
+    comment: 'The BPSK excess bandwidth setup.
+
+      Used in filtering.'
+    hide: none
+    label: ''
+    short_id: ''
+    type: eng_float
+    value: '0.5'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [456, 12.0]
+    rotation: 0
+    state: enabled
+- name: import_0
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import math
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [272, 12.0]
+    rotation: 0
+    state: true
+
+connections:
+- [blocks_message_strobe_random_0, strobe, blocks_random_pdu_0, generate]
+- [blocks_packed_to_unpacked_xx_0, '0', cs330project_frame_sync_0, '0']
+- [blocks_pdu_to_tagged_stream_0, '0', blocks_packed_to_unpacked_xx_0, '0']
+- [blocks_random_pdu_0, pdus, digital_crc32_async_bb_0, in]
+- [blocks_socket_pdu_0, pdus, digital_crc32_async_bb_0, in]
+- [cs330project_fec_encoder_0, pdu_out, cs330project_interleaver_0, pdu_in]
+- [cs330project_frame_sync_0, pdu, digital_crc32_async_bb_0_0, in]
+- [cs330project_framer_0, frame, blocks_pdu_to_tagged_stream_0, pdus]
+- [cs330project_interleaver_0, pdu_out, cs330project_framer_0, pdu]
+- [digital_crc32_async_bb_0, out, cs330project_fec_encoder_0, pdu_in]
+- [digital_crc32_async_bb_0_0, out, blocks_message_debug_0, print_pdu]
+
+metadata:
+  file_format: 1

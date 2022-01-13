@@ -1,0 +1,305 @@
+options:
+  parameters:
+    author: gkokol
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: GK
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: transmiter
+    window_size: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: bits_per_symbol
+  id: variable
+  parameters:
+    comment: Samples per symbol
+    value: int(math.log2(constellation.arity()))
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1254, 183]
+    rotation: 0
+    state: true
+- name: constellation
+  id: variable_constellation
+  parameters:
+    comment: ''
+    const_points: '[-1-1j, -1+1j, 1+1j, 1-1j]'
+    dims: '1'
+    precision: '8'
+    rot_sym: '4'
+    soft_dec_lut: None
+    sym_map: '[0, 1, 3, 2]'
+    type: bpsk
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1078, 183]
+    rotation: 0
+    state: true
+- name: nfilts
+  id: variable
+  parameters:
+    comment: ''
+    value: '32'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [742, 183]
+    rotation: 0
+    state: enabled
+- name: rrc_taps
+  id: variable
+  parameters:
+    comment: ''
+    value: firdes.root_raised_cosine(nfilts, nfilts, 1.0/float(sps), excess_bw, 11*sps*nfilts)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [902, 183]
+    rotation: 0
+    state: enabled
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: '32000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [184, 12]
+    rotation: 0
+    state: enabled
+- name: samp_rate_0
+  id: variable
+  parameters:
+    comment: ''
+    value: 1e6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [542, 183]
+    rotation: 0
+    state: enabled
+- name: sps
+  id: variable
+  parameters:
+    comment: Samples per symbol
+    value: '4'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1382, 183]
+    rotation: 0
+    state: true
+- name: blocks_message_debug_0
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1733, 489]
+    rotation: 0
+    state: true
+- name: blocks_message_strobe_random_0
+  id: blocks_message_strobe_random
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    dist: blocks.STROBE_UNIFORM
+    maxoutbuf: '0'
+    mean: '100'
+    minoutbuf: '0'
+    msg: pmt.intern("TEST")
+    std: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [376, 271]
+    rotation: 0
+    state: true
+- name: blocks_random_pdu_0
+  id: blocks_random_pdu
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    length_modulo: '2'
+    mask: '0xFF'
+    maxoutbuf: '0'
+    maxsize: '128'
+    minoutbuf: '0'
+    minsize: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [678, 311]
+    rotation: 0
+    state: true
+- name: blocks_socket_pdu_0
+  id: blocks_socket_pdu
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    host: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu: '10000'
+    port: '52001'
+    tcp_no_delay: 'False'
+    type: UDP_SERVER
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [726, 415]
+    rotation: 0
+    state: disabled
+- name: cs330project_fec_encoder_0
+  id: cs330project_fec_encoder
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fec_type: No FEC
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1086, 335]
+    rotation: 0
+    state: true
+- name: cs330project_framer_0
+  id: cs330project_framer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    preamble: '0xAA'
+    preamble_len: '64'
+    sync_word: '[0x58, 0x9A]'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1502, 319]
+    rotation: 0
+    state: true
+- name: cs330project_interleaver_0
+  id: cs330project_interleaver
+  parameters:
+    affinity: ''
+    alias: ''
+    block_size: '96'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1310, 335]
+    rotation: 0
+    state: true
+- name: digital_crc32_async_bb_0
+  id: digital_crc32_async_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    check: 'False'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [878, 335]
+    rotation: 0
+    state: enabled
+- name: excess_bw
+  id: parameter
+  parameters:
+    alias: ''
+    comment: 'The BPSK excess bandwidth setup.
+
+      Used in filtering.'
+    hide: none
+    label: ''
+    short_id: ''
+    type: eng_float
+    value: '0.5'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [814, 183]
+    rotation: 0
+    state: enabled
+- name: import_0
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import math
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [630, 183]
+    rotation: 0
+    state: true
+
+connections:
+- [blocks_message_strobe_random_0, strobe, blocks_random_pdu_0, generate]
+- [blocks_random_pdu_0, pdus, digital_crc32_async_bb_0, in]
+- [blocks_socket_pdu_0, pdus, digital_crc32_async_bb_0, in]
+- [cs330project_fec_encoder_0, pdu_out, cs330project_interleaver_0, pdu_in]
+- [cs330project_framer_0, frame, blocks_message_debug_0, print_pdu]
+- [cs330project_interleaver_0, pdu_out, cs330project_framer_0, pdu]
+- [digital_crc32_async_bb_0, out, cs330project_fec_encoder_0, pdu_in]
+
+metadata:
+  file_format: 1

@@ -1,0 +1,31 @@
+INCLUDE(FindPkgConfig)
+PKG_CHECK_MODULES(PC_CS330PROJECT cs330project)
+
+FIND_PATH(
+    CS330PROJECT_INCLUDE_DIRS
+    NAMES cs330project/api.h
+    HINTS $ENV{CS330PROJECT_DIR}/include
+        ${PC_CS330PROJECT_INCLUDEDIR}
+    PATHS ${CMAKE_INSTALL_PREFIX}/include
+          /usr/local/include
+          /usr/include
+)
+
+FIND_LIBRARY(
+    CS330PROJECT_LIBRARIES
+    NAMES gnuradio-cs330project
+    HINTS $ENV{CS330PROJECT_DIR}/lib
+        ${PC_CS330PROJECT_LIBDIR}
+    PATHS ${CMAKE_INSTALL_PREFIX}/lib
+          ${CMAKE_INSTALL_PREFIX}/lib64
+          /usr/local/lib
+          /usr/local/lib64
+          /usr/lib
+          /usr/lib64
+          )
+
+include("${CMAKE_CURRENT_LIST_DIR}/cs330projectTarget.cmake")
+
+INCLUDE(FindPackageHandleStandardArgs)
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(CS330PROJECT DEFAULT_MSG CS330PROJECT_LIBRARIES CS330PROJECT_INCLUDE_DIRS)
+MARK_AS_ADVANCED(CS330PROJECT_LIBRARIES CS330PROJECT_INCLUDE_DIRS)

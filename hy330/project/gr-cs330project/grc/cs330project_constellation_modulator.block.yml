@@ -1,0 +1,43 @@
+id: cs330project_constellation_modulator
+label: Constellation Modulator (Tag Fix)
+category: '[cs330project]'
+flags: [ python ]
+
+parameters:
+-   id: constellation
+    label: Constellation
+    dtype: raw
+-   id: differential
+    label: Differential Encoding
+    dtype: bool
+    default: 'True'
+    options: ['True', 'False']
+    option_labels: ['Yes', 'No']
+-   id: samples_per_symbol
+    label: Samples/Symbol
+    dtype: int
+    default: '2'
+-   id: excess_bw
+    label: Excess BW
+    dtype: real
+    default: '0.35'
+
+inputs:
+-   domain: stream
+    dtype: byte
+
+outputs:
+-   domain: stream
+    dtype: complex
+
+templates:
+    imports: import cs330project
+    make: |-
+          cs330project.generic_mod(
+            constellation=${constellation},
+            differential=${differential},
+            samples_per_symbol=${samples_per_symbol},
+            pre_diff_code=True,
+            excess_bw=${excess_bw})
+
+file_format: 1

@@ -1,0 +1,25 @@
+id: cs330project_interleaver
+label: Interleaver
+category: '[cs330project]'
+
+templates:
+  imports: import cs330project
+  make: cs330project.interleaver(${block_size.val})
+
+parameters:
+- id: block_size
+  label: Block Size
+  dtype: enum
+  options: ['96', '192', '384']
+  option_attributes:
+        val: [96, 192, 384]
+
+inputs:
+- domain: message
+  id: pdu_in
+  
+outputs:
+- domain: message
+  id: pdu_out
+
+file_format: 1
