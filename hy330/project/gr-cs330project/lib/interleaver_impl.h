@@ -30,6 +30,9 @@ class interleaver_impl : public interleaver {
 private:
     void
     interleave(pmt::pmt_t m);
+    size_t block_size;
+    uint8_t **  interleaver_array;
+    std::vector<uint8_t> input_in_bits;
 
 public:
     interleaver_impl(size_t block_size);

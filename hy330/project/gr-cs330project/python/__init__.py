@@ -23,12 +23,15 @@ This is the GNU Radio CS330PROJECT module. Place your Python package
 description here (python/__init__.py).
 '''
 from __future__ import unicode_literals
-
+from .generic_mod import generic_mod
+import sys
 # import swig generated symbols into the cs330project namespace
 try:
     # this might fail if the module is python-only
     from .cs330project_swig import *
 except ImportError:
+    sys.stderr.write("Failed to import gr-cs330project ({})\n".format(err))
+    sys.stderr.write("Consider first to run 'sudo ldconfig'\n")
     pass
 
 # import any pure python here

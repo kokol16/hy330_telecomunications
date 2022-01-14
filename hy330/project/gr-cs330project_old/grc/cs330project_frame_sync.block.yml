@@ -1,0 +1,41 @@
+id: cs330project_frame_sync
+label: Frame Sync
+category: '[cs330project]'
+
+templates:
+  imports: import cs330project
+  make: cs330project.frame_sync(${preamble}, ${preamble_len}, ${sync_word}, ${mod})
+
+parameters:
+- id: preamble
+  label: Preamble
+  dtype: raw
+  default: '0xAA'
+
+- id: preamble_len
+  label: Preamble Length
+  dtype: int
+  default: 64
+
+- id: sync_word
+  label: Synchronization Word
+  dtype: raw
+  default: '[0x58, 0x9A]'
+
+- id: mod
+  label: Modulation
+  dtype: int
+  options: [0, 1]
+  option_labels: [BPSK, QPSK]
+  default: 0
+
+inputs:
+- label: in
+  domain: stream
+  dtype: byte
+
+outputs:
+- id: pdu
+  domain: message
+
+file_format: 1

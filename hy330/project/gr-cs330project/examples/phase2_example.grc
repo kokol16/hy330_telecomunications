@@ -59,7 +59,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [280, 12.0]
+    coordinate: [280, 12]
     rotation: 0
     state: true
 - name: samp_rate
@@ -122,7 +122,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1120, 404.0]
+    coordinate: [1317, 420]
     rotation: 180
     state: true
 - name: blocks_pdu_to_tagged_stream_0
@@ -161,6 +161,38 @@ blocks:
     coordinate: [360, 188.0]
     rotation: 0
     state: true
+- name: cs330project_fec_decoder_0
+  id: cs330project_fec_decoder
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fec_type: Hamming
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [535, 501]
+    rotation: 0
+    state: true
+- name: cs330project_fec_encoder_0
+  id: cs330project_fec_encoder
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fec_type: Hamming
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [617, 140]
+    rotation: 0
+    state: true
 - name: cs330project_frame_sync_0
   id: cs330project_frame_sync
   parameters:
@@ -177,7 +209,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [800, 388.0]
+    coordinate: [800, 388]
     rotation: 180
     state: true
 - name: cs330project_framer_0
@@ -211,7 +243,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [600, 212.0]
+    coordinate: [491, 335]
     rotation: 0
     state: enabled
 - name: digital_crc32_async_bb_0_0_0
@@ -230,6 +262,22 @@ blocks:
     coordinate: [441, 595]
     rotation: 180
     state: enabled
+- name: digital_map_bb_0
+  id: digital_map_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    map: '[2,0,3,1]'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1115, 513]
+    rotation: 0
+    state: true
 - name: import_0
   id: import
   parameters:
@@ -246,13 +294,16 @@ blocks:
 
 connections:
 - [blocks_message_strobe_random_0, strobe, blocks_random_pdu_0, generate]
-- [blocks_packed_to_unpacked_xx_0, '0', cs330project_frame_sync_0, '0']
+- [blocks_packed_to_unpacked_xx_0, '0', digital_map_bb_0, '0']
 - [blocks_pdu_to_tagged_stream_0, '0', blocks_packed_to_unpacked_xx_0, '0']
 - [blocks_random_pdu_0, pdus, digital_crc32_async_bb_0, in]
-- [cs330project_frame_sync_0, pdu, digital_crc32_async_bb_0_0_0, in]
+- [cs330project_fec_decoder_0, pdu_out, digital_crc32_async_bb_0_0_0, in]
+- [cs330project_fec_encoder_0, pdu_out, cs330project_framer_0, pdu]
+- [cs330project_frame_sync_0, pdu, cs330project_fec_decoder_0, pdu_in]
 - [cs330project_framer_0, frame, blocks_pdu_to_tagged_stream_0, pdus]
-- [digital_crc32_async_bb_0, out, cs330project_framer_0, pdu]
+- [digital_crc32_async_bb_0, out, cs330project_fec_encoder_0, pdu_in]
 - [digital_crc32_async_bb_0_0_0, out, blocks_message_debug_0_0_0, print_pdu]
+- [digital_map_bb_0, '0', cs330project_frame_sync_0, '0']
 
 metadata:
   file_format: 1

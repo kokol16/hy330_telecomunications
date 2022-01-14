@@ -31,6 +31,25 @@ namespace gr
     namespace cs330project
     {
 
+        void print_in(uint8_t bit)
+        {
+            if (bit == 1)
+            {
+                std::cout << "01";
+            }
+            else if (bit == 0)
+            {
+                std::cout << "00";
+            }
+            else if (bit == 2)
+            {
+                std::cout << "10";
+            }
+            else if (bit == 3)
+            {
+                std::cout << "11";
+            }
+        }
         frame_sync::sptr
         frame_sync::make(uint8_t preamble, uint8_t preamble_len,
                          const std::vector<uint8_t> &sync_word,
@@ -43,7 +62,28 @@ namespace gr
         {
             return ((byte >> k_bit) & 1);
         }
-
+        void print_bit(uint8_t bit)
+        {
+            if (bit == 0)
+            {
+                std::cout << "0";
+            }
+            else
+            {
+                std::cout << "1";
+            }
+        }
+        int frame_sync_impl::find_index_of_point(int index)
+        {
+            for (int i = 0; i < 4; ++i)
+            {
+                if (gray_code_qpsk[i] == index)
+                {
+                    return i;
+                }
+            }
+            return 0;
+        }
         /*
  * The private constructor
  */
@@ -57,8 +97,14 @@ namespace gr
               d_mod((mod_t)mod),
               sync_word(sync_word), preamble(preamble), preamble_len(preamble_len), reg_preamble(preamble_len * 8), reg_sync_word(sync_word.size() * 8), reg_sync_word_inverse(sync_word.size() * 8), reg_frame_length(8 * 2), frame_length_index(0), reg_input(preamble_len * 8), reg_input_sync_word(sync_word.size() * 8), reg_input_frame_length(2 * 8), reg_sync_word_perm_00_11(sync_word.size() * 8), reg_sync_word_perm_00_10(sync_word.size() * 8), reg_sync_word_perm_00_01(sync_word.size() * 8)
         {
+            gray_code_qpsk[0] = 0;
+            gray_code_qpsk[1] = 1;
+            gray_code_qpsk[2] = 3;
+            gray_code_qpsk[3] = 2;
+
             bpsk_rotation = NORMAL;
             qpsk_rotation = _00_00;
+            bits_seen_so_far = 0;
             count_frames = 0;
             payload_length = 0;
             sync_fsm[0] = &frame_sync_impl::find_preamble_sequence;
@@ -88,19 +134,34 @@ namespace gr
 
             index = 0;
             size_t index2 = 0, index3 = 0;
+            uint8_t bit1, bit2, _index, byte;
             for (int i = 0; i < sync_word.size(); ++i)
             {
                 for (int j = 7; j >= 0; j = j - 2)
                 {
-
+                    //print_bit(get_k_bit_least_significat_from_byte(sync_word[i], j))
                     this->reg_sync_word_perm_00_11[index++] = !get_k_bit_least_significat_from_byte(sync_word[i], j);
                     this->reg_sync_word_perm_00_11[index++] = !get_k_bit_least_significat_from_byte(sync_word[i], j - 1);
 
-                    this->reg_sync_word_perm_00_01[index2++] = get_k_bit_least_significat_from_byte(sync_word[i], j);
-                    this->reg_sync_word_perm_00_01[index2++] = !get_k_bit_least_significat_from_byte(sync_word[i], j - 1);
+                    //00 -> 01
+                    bit1 = get_k_bit_least_significat_from_byte(sync_word[i], j);
+                    bit2 = get_k_bit_least_significat_from_byte(sync_word[i], j - 1);
+                    _index = bit1 * 2 + bit2 * 1;
+                    _index = find_index_of_point(_index);
+                    byte = gray_code_qpsk[(_index + 1) % 4];
+                    this->reg_sync_word_perm_00_01[index2++] = get_k_bit_least_significat_from_byte(byte, 1);
+                    this->reg_sync_word_perm_00_01[index2++] = get_k_bit_least_significat_from_byte(byte, 0);
 
-                    this->reg_sync_word_perm_00_10[index3++] = !get_k_bit_least_significat_from_byte(sync_word[i], j);
-                    this->reg_sync_word_perm_00_10[index3++] = get_k_bit_least_significat_from_byte(sync_word[i], j - 1);
+                    //00 -> 10
+                    // std::cout << "byte is ";
+                    // print_in((_index + 3) % 4);
+                    //  std::cout << "\n";
+                    byte = gray_code_qpsk[(_index + 3) % 4];
+                    // std::cout << "byte im puting: ";
+                    // print_in(byte);
+                    // std::cout << "\n";
+                    this->reg_sync_word_perm_00_10[index3++] = get_k_bit_least_significat_from_byte(byte, 1);
+                    this->reg_sync_word_perm_00_10[index3++] = get_k_bit_least_significat_from_byte(byte, 0);
                 }
             }
 
@@ -111,26 +172,6 @@ namespace gr
             std::cout << "sync word with 00 10 bits: " << reg_sync_word_perm_00_10 << std::endl;
 
             message_port_register_out(pmt::mp("pdu"));
-        }
-
-        void print_in(uint8_t bit)
-        {
-            if (bit == 1)
-            {
-                std::cout << "01";
-            }
-            else if (bit == 0)
-            {
-                std::cout << "00";
-            }
-            else if (bit == 2)
-            {
-                std::cout << "10";
-            }
-            else if (bit == 3)
-            {
-                std::cout << "11";
-            }
         }
 
         /*
@@ -148,7 +189,7 @@ namespace gr
             //count how many same bits they have
             if (reg.count() == 0)
             {
-                std::cout << "found sync word!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! " << input << std::endl;
+                std::cout << "found sync word !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! " << input << std::endl;
                 //  std::cout << "found sync word" << input << std::endl;
 
                 return FRAME_LENGTH;
@@ -166,6 +207,10 @@ namespace gr
 
             if (d_mod == QPSK)
             {
+                if (bits_seen_so_far == 64 * 8 + 8 * 2)
+                {
+                    std::cout << input << std::endl;
+                }
                 if ((reg_sync_word_perm_00_11 ^ input).count() == 0)
                 {
                     std::cout << "found sync word _00_11 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! " << input << std::endl;
@@ -187,6 +232,13 @@ namespace gr
                     return FRAME_LENGTH;
                 }
             }
+            /*
+            if(bits_seen_so_far>=preamble_len*8+ sync_word.size()*8){
+                bits_seen_so_far=0;
+                std::cout<<" didn't find sync word after preamble len + word size bits" << std::endl;
+                return PREAMBLE;
+            }*/
+
             return SYNCWORD;
         }
 
@@ -194,7 +246,7 @@ namespace gr
         {
             shift_reg reg = reg_preamble ^ input;
             //count how many same bits they have
-            if (reg.count() == 0)
+            if (reg.count() == preamble_len * 8 / 2)
             {
                 //found 50% right bits from the preamble
                 //  std::cout << "input with preamble" << input << std::endl;
@@ -243,10 +295,17 @@ namespace gr
         {
             bool b1 = get_k_bit_least_significat_from_byte(byte, 0);
             bool b2 = get_k_bit_least_significat_from_byte(byte, 1);
+            uint8_t index, _index;
+
+            index = b1 * 2 + b2 * 1;
+            _index = find_index_of_point(index);
+
             if (qpsk_rotation == _00_01)
             {
-                reg.push_back(b2);
-                reg.push_back(!b1);
+                byte = gray_code_qpsk[(_index + 1) % 4];
+
+                reg.push_back(get_k_bit_least_significat_from_byte(byte, 0));
+                reg.push_back(get_k_bit_least_significat_from_byte(byte, 1));
             }
             else if (qpsk_rotation == _00_11)
             {
@@ -255,8 +314,9 @@ namespace gr
             }
             else if (qpsk_rotation == _00_10)
             {
-                reg.push_back(!b2);
-                reg.push_back(b1);
+                byte = gray_code_qpsk[(_index + 3) % 4];
+                reg.push_back(get_k_bit_least_significat_from_byte(byte, 0));
+                reg.push_back(get_k_bit_least_significat_from_byte(byte, 1));
             }
             else
             {
@@ -291,11 +351,16 @@ namespace gr
         {
             bool b1 = get_k_bit_least_significat_from_byte(byte, 0);
             bool b2 = get_k_bit_least_significat_from_byte(byte, 1);
+            uint8_t index, _index;
+
+            index = b1 * 2 + b2 * 1;
+            _index = find_index_of_point(index);
 
             if (qpsk_rotation == _00_01)
             {
-                reg.push_back(b2);
-                reg.push_back(!b1);
+                byte = gray_code_qpsk[(_index + 1) % 4];
+                reg.push_back(get_k_bit_least_significat_from_byte(byte, 0));
+                reg.push_back(get_k_bit_least_significat_from_byte(byte, 1));
             }
             else if (qpsk_rotation == _00_11)
             {
@@ -304,8 +369,9 @@ namespace gr
             }
             else if (qpsk_rotation == _00_10)
             {
-                reg.push_back(!b2);
-                reg.push_back(b1);
+                byte = gray_code_qpsk[(_index + 3) % 4];
+                reg.push_back(get_k_bit_least_significat_from_byte(byte, 0));
+                reg.push_back(get_k_bit_least_significat_from_byte(byte, 1));
             }
             else
             {
@@ -340,11 +406,17 @@ namespace gr
         {
             bool b1 = get_k_bit_least_significat_from_byte(byte, 0);
             bool b2 = get_k_bit_least_significat_from_byte(byte, 1);
+            uint8_t index, _index;
+            index = b1 * 2 + b2 * 1;
+
+            _index = find_index_of_point(index);
 
             if (qpsk_rotation == _00_01)
             {
-                reg.push_front(b1);
-                reg.push_front(!b2);
+                byte = gray_code_qpsk[(_index + 1) % 4];
+
+                reg.push_front(get_k_bit_least_significat_from_byte(byte, 1));
+                reg.push_front(get_k_bit_least_significat_from_byte(byte, 0));
             }
             else if (qpsk_rotation == _00_11)
             {
@@ -353,8 +425,10 @@ namespace gr
             }
             else if (qpsk_rotation == _00_10)
             {
-                reg.push_front(!b1);
-                reg.push_front(b2);
+                byte = gray_code_qpsk[(index + 3) % 4];
+
+                reg.push_front(get_k_bit_least_significat_from_byte(byte, 1));
+                reg.push_front(get_k_bit_least_significat_from_byte(byte, 0));
             }
             else
             {
@@ -400,10 +474,13 @@ namespace gr
                 {
                     if (d_mod == BPSK)
                     {
+                        ++bits_seen_so_far;
                         reg_input.push_back(in[i]);
                     }
                     else if (d_mod == QPSK)
                     {
+                        bits_seen_so_far += 2;
+
                         extra_qpsk_bytes(in[i], reg_input);
                     }
                     action = (this->*sync_fsm[action])(reg_input);
@@ -412,11 +489,12 @@ namespace gr
                 {
                     if (d_mod == BPSK)
                     {
-
+                        ++bits_seen_so_far;
                         reg_input_sync_word.push_back(in[i]);
                     }
                     else if (d_mod == QPSK)
                     {
+                        bits_seen_so_far += 2;
                         extra_qpsk_bytes(in[i], reg_input_sync_word);
                     }
 
@@ -430,6 +508,10 @@ namespace gr
                         {
 
                             reg_input_frame_length.push_back(!in[i]);
+                        }
+                        else
+                        {
+                            reg_input_frame_length.push_back(in[i]);
                         }
                     }
                     else if (d_mod == QPSK)
@@ -445,7 +527,7 @@ namespace gr
                         std::string str = "";
                         for (int i = 0; i < reg_frame_length.size(); ++i)
                         {
-                            if (reg_frame_length[i])
+                            if (reg_frame_length[i] == 1)
                             {
                                 str += "1";
                             }
@@ -465,6 +547,10 @@ namespace gr
                         if (bpsk_rotation == INVERSE)
                         {
                             payload_in_bits.push_back(!in[i]);
+                        }
+                        else
+                        {
+                            payload_in_bits.push_back(in[i]);
                         }
                     }
                     else if (d_mod == QPSK)
@@ -535,6 +621,7 @@ namespace gr
                     count_frames = 0;
                     payload_length = 0;
                     frame_length_index = 0;
+                    bits_seen_so_far = 0;
                     str = "";
                 }
             }

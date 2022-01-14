@@ -23,22 +23,27 @@
 
 #include <cs330project/fec_encoder.h>
 
-namespace gr {
-namespace cs330project {
+namespace gr
+{
+    namespace cs330project
+    {
 
-class fec_encoder_impl : public fec_encoder {
-private:
-    const int d_type;
+        class fec_encoder_impl : public fec_encoder
+        {
+        private:
+            const int d_type;
+            std::vector<uint8_t> packet_after_encoding;
+            std::vector<uint8_t> packet_after_encoding_in_bytes;
+            void vector_of_bits_to_bytes(std::vector<uint8_t> vector_bits,std::vector<uint8_t> &);
 
-    void encode(pmt::pmt_t m);
+            void encode(pmt::pmt_t m);
 
-public:
-    fec_encoder_impl(int type);
-    ~fec_encoder_impl();
+        public:
+            fec_encoder_impl(int type);
+            ~fec_encoder_impl();
+        };
 
-};
-
-} // namespace cs330project
+    } // namespace cs330project
 } // namespace gr
 
 #endif /* INCLUDED_CS330PROJECT_FEC_ENCODER_IMPL_H */

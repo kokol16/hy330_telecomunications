@@ -110,6 +110,50 @@ blocks:
     coordinate: [1024, 12.0]
     rotation: 0
     state: true
+- name: analog_agc2_xx_0
+  id: analog_agc2_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    attack_rate: 1e-3
+    comment: 'Brings the amplitude of the signal into a known
+
+      reference level. Try to disable it and see what is
+
+      happening to the constellation points.
+
+      Do we need it???!!!'
+    decay_rate: 1e-3
+    gain: '1.0'
+    max_gain: '65536'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    reference: math.sqrt(2)/2
+    type: complex
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [416, 636.0]
+    rotation: 0
+    state: enabled
+- name: blocks_char_to_float_0
+  id: blocks_char_to_float
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    scale: '1'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1400, 764.0]
+    rotation: 180
+    state: true
 - name: blocks_message_debug_0
   id: blocks_message_debug
   parameters:
@@ -142,23 +186,21 @@ blocks:
     coordinate: [56, 140.0]
     rotation: 0
     state: true
-- name: blocks_packed_to_unpacked_xx_0
-  id: blocks_packed_to_unpacked_xx
+- name: blocks_null_sink_0
+  id: blocks_null_sink
   parameters:
     affinity: ''
     alias: ''
-    bits_per_chunk: '1'
+    bus_structure_sink: '[[0,],]'
     comment: ''
-    endianness: gr.GR_MSB_FIRST
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    num_ports: '1'
-    type: byte
+    num_inputs: '3'
+    type: float
+    vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1021, 533]
+    coordinate: [1352, 624.0]
     rotation: 0
     state: true
 - name: blocks_pdu_to_tagged_stream_0
@@ -175,7 +217,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [757, 348]
+    coordinate: [1336, 284.0]
     rotation: 180
     state: enabled
 - name: blocks_random_pdu_0
@@ -217,6 +259,136 @@ blocks:
     coordinate: [368, 244.0]
     rotation: 0
     state: disabled
+- name: blocks_tagged_stream_multiply_length_0
+  id: blocks_tagged_stream_multiply_length
+  parameters:
+    affinity: ''
+    alias: ''
+    c: 8*sps
+    comment: 'Necessary for proper transmission with
+
+      SDR hardware. Do not care about it!'
+    lengthtagname: packet_len
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [704, 288.0]
+    rotation: 180
+    state: enabled
+- name: blocks_unpack_k_bits_bb_0
+  id: blocks_unpack_k_bits_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'This block is needed to convert the input stream that
+
+      constaines log2(constellation size) bits per byte into
+
+      a stream of 1 bit per byte. This will greatly simplify
+
+      the logic of your frame synchronization regardless
+
+      of the actual modulation used by the system.
+
+      Keep it stupid simple!'
+    k: bits_per_symbol
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1480, 588.0]
+    rotation: 0
+    state: true
+- name: channels_dynamic_channel_model_0
+  id: channels_dynamic_channel_model
+  parameters:
+    K: '4.0'
+    LOS: 'False'
+    N: '8'
+    affinity: ''
+    alias: ''
+    cfo_maxdev: 1e3
+    cfo_stdev: '0.01'
+    comment: "Add hardware and channel impairements.\nDisable it during initial development\
+      \ or reduce\nthe noise and the frequency offset. As you \nprocceeding with the\
+      \ development start\nexperimenting with larger values of frequency\noffset and\
+      \ noise amplitude.\n\nRemeber, wireless channels are pretty nasty and challenging!"
+    delays: '[0.0,0.1,1.3]'
+    fD: '50.0'
+    mags: '[1,0.99,0.97]'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    noise_amp: '0.1'
+    ntaps: '8'
+    samp_rate: samp_rate
+    seed: '0'
+    sro_maxdev: 1e3
+    sro_stdev: '0.01'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [64, 572.0]
+    rotation: 0
+    state: enabled
+- name: cs330project_constellation_modulator_0
+  id: cs330project_constellation_modulator
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    constellation: constellation
+    differential: 'True'
+    excess_bw: '0.35'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samples_per_symbol: '2'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1056, 260.0]
+    rotation: 180
+    state: true
+- name: cs330project_deinterleaver_0
+  id: cs330project_deinterleaver
+  parameters:
+    affinity: ''
+    alias: ''
+    block_size: '96'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1096, 932.0]
+    rotation: 180
+    state: true
+- name: cs330project_fec_decoder_0
+  id: cs330project_fec_decoder
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fec_type: No FEC
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [888, 932.0]
+    rotation: 180
+    state: true
 - name: cs330project_fec_encoder_0
   id: cs330project_fec_encoder
   parameters:
@@ -249,7 +421,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1144, 859]
+    coordinate: [1384, 956.0]
     rotation: 180
     state: true
 - name: cs330project_framer_0
@@ -286,6 +458,49 @@ blocks:
     coordinate: [952, 164.0]
     rotation: 0
     state: true
+- name: digital_burst_shaper_xx_0
+  id: digital_burst_shaper_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: "Necessary for proper transmission with\nSDR hardware. It prepends and\
+      \ appends some \nzero samples for every frame. Do not care about it!"
+    insert_phasing: 'False'
+    length_tag_name: '"packet_len"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    post_padding: '1000'
+    pre_padding: '1000'
+    type: complex
+    window: ([])
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [360, 348.0]
+    rotation: 180
+    state: enabled
+- name: digital_constellation_receiver_cb_0
+  id: digital_constellation_receiver_cb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: "Performs frequency synchronization\n (stops the rotation of PSK symbols)\n\
+      and demaps the received constellation\n points into bits"
+    constellation: constellation
+    fmax: '0.25'
+    fmin: '-0.25'
+    loop_bw: 2.0 * math.pi/100.0
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    showports: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1024, 592.0]
+    rotation: 0
+    state: enabled
 - name: digital_crc32_async_bb_0
   id: digital_crc32_async_bb
   parameters:
@@ -315,8 +530,40 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [757, 931]
+    coordinate: [696, 932.0]
     rotation: 180
+    state: enabled
+- name: digital_pfb_clock_sync_xxx_0
+  id: digital_pfb_clock_sync_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Black magic. Many poor souls died trying to
+
+      understand the black sorcery that hides behind
+
+      this block.
+
+
+      The goal of this block is to minimize ISI, introduced by wrong
+
+      sampling timing (clocks of TX and RX are not in sync)'
+    filter_size: nfilts
+    init_phase: nfilts/2
+    loop_bw: 2.0 * math.pi/100.0
+    max_dev: '1.5'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    osps: '1'
+    sps: sps
+    taps: rrc_taps
+    type: ccf
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [688, 620.0]
+    rotation: 0
     state: enabled
 - name: excess_bw
   id: parameter
@@ -350,19 +597,386 @@ blocks:
     coordinate: [272, 12.0]
     rotation: 0
     state: true
+- name: qtgui_const_sink_x_0
+  id: qtgui_const_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'False'
+    axislabels: 'True'
+    color1: '"blue"'
+    color10: '"red"'
+    color2: '"red"'
+    color3: '"red"'
+    color4: '"red"'
+    color5: '"red"'
+    color6: '"red"'
+    color7: '"red"'
+    color8: '"red"'
+    color9: '"red"'
+    comment: ''
+    grid: 'False'
+    gui_hint: ''
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    legend: 'True'
+    marker1: '0'
+    marker10: '0'
+    marker2: '0'
+    marker3: '0'
+    marker4: '0'
+    marker5: '0'
+    marker6: '0'
+    marker7: '0'
+    marker8: '0'
+    marker9: '0'
+    name: '""'
+    nconnections: '1'
+    size: '1024'
+    style1: '0'
+    style10: '0'
+    style2: '0'
+    style3: '0'
+    style4: '0'
+    style5: '0'
+    style6: '0'
+    style7: '0'
+    style8: '0'
+    style9: '0'
+    tr_chan: '0'
+    tr_level: '0.0'
+    tr_mode: qtgui.TRIG_MODE_FREE
+    tr_slope: qtgui.TRIG_SLOPE_POS
+    tr_tag: '""'
+    type: complex
+    update_time: '0.10'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    xmax: '2'
+    xmin: '-2'
+    ymax: '2'
+    ymin: '-2'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1328, 516.0]
+    rotation: 0
+    state: true
+- name: qtgui_freq_sink_x_0
+  id: qtgui_freq_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'False'
+    average: '1.0'
+    axislabels: 'True'
+    bw: samp_rate
+    color1: '"blue"'
+    color10: '"dark blue"'
+    color2: '"red"'
+    color3: '"green"'
+    color4: '"black"'
+    color5: '"cyan"'
+    color6: '"magenta"'
+    color7: '"yellow"'
+    color8: '"dark red"'
+    color9: '"dark green"'
+    comment: ''
+    ctrlpanel: 'False'
+    fc: '0'
+    fftsize: '1024'
+    freqhalf: 'True'
+    grid: 'False'
+    gui_hint: ''
+    label: Relative Gain
+    label1: ''
+    label10: ''''''
+    label2: ''''''
+    label3: ''''''
+    label4: ''''''
+    label5: ''''''
+    label6: ''''''
+    label7: ''''''
+    label8: ''''''
+    label9: ''''''
+    legend: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '"Without impairements"'
+    nconnections: '1'
+    showports: 'False'
+    tr_chan: '0'
+    tr_level: '0.0'
+    tr_mode: qtgui.TRIG_MODE_FREE
+    tr_tag: '""'
+    type: complex
+    units: dB
+    update_time: '0.10'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    wintype: firdes.WIN_BLACKMAN_hARRIS
+    ymax: '10'
+    ymin: '-140'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [64, 260.0]
+    rotation: 180
+    state: true
+- name: qtgui_freq_sink_x_0_0
+  id: qtgui_freq_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'False'
+    average: '1.0'
+    axislabels: 'True'
+    bw: samp_rate
+    color1: '"blue"'
+    color10: '"dark blue"'
+    color2: '"red"'
+    color3: '"green"'
+    color4: '"black"'
+    color5: '"cyan"'
+    color6: '"magenta"'
+    color7: '"yellow"'
+    color8: '"dark red"'
+    color9: '"dark green"'
+    comment: ''
+    ctrlpanel: 'False'
+    fc: '0'
+    fftsize: '1024'
+    freqhalf: 'True'
+    grid: 'False'
+    gui_hint: ''
+    label: Relative Gain
+    label1: ''
+    label10: ''''''
+    label2: ''''''
+    label3: ''''''
+    label4: ''''''
+    label5: ''''''
+    label6: ''''''
+    label7: ''''''
+    label8: ''''''
+    label9: ''''''
+    legend: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '"With impairements"'
+    nconnections: '1'
+    showports: 'False'
+    tr_chan: '0'
+    tr_level: '0.0'
+    tr_mode: qtgui.TRIG_MODE_FREE
+    tr_tag: '""'
+    type: complex
+    units: dB
+    update_time: '0.10'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    wintype: firdes.WIN_BLACKMAN_hARRIS
+    ymax: '10'
+    ymin: '-140'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [416, 508.0]
+    rotation: 0
+    state: true
+- name: qtgui_time_sink_x_0
+  id: qtgui_time_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'False'
+    axislabels: 'True'
+    color1: blue
+    color10: dark blue
+    color2: red
+    color3: green
+    color4: black
+    color5: cyan
+    color6: magenta
+    color7: yellow
+    color8: dark red
+    color9: dark green
+    comment: ''
+    ctrlpanel: 'False'
+    entags: 'True'
+    grid: 'False'
+    gui_hint: ''
+    label1: Signal 1
+    label10: Signal 10
+    label2: Signal 2
+    label3: Signal 3
+    label4: Signal 4
+    label5: Signal 5
+    label6: Signal 6
+    label7: Signal 7
+    label8: Signal 8
+    label9: Signal 9
+    legend: 'True'
+    marker1: '-1'
+    marker10: '-1'
+    marker2: '-1'
+    marker3: '-1'
+    marker4: '-1'
+    marker5: '-1'
+    marker6: '-1'
+    marker7: '-1'
+    marker8: '-1'
+    marker9: '-1'
+    name: '""'
+    nconnections: '1'
+    size: '1024'
+    srate: samp_rate
+    stemplot: 'False'
+    style1: '1'
+    style10: '1'
+    style2: '1'
+    style3: '1'
+    style4: '1'
+    style5: '1'
+    style6: '1'
+    style7: '1'
+    style8: '1'
+    style9: '1'
+    tr_chan: '0'
+    tr_delay: '0'
+    tr_level: '0.0'
+    tr_mode: qtgui.TRIG_MODE_FREE
+    tr_slope: qtgui.TRIG_SLOPE_POS
+    tr_tag: '""'
+    type: float
+    update_time: '0.10'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    ylabel: Amplitude
+    ymax: '1'
+    ymin: '-1'
+    yunit: '""'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1136, 812.0]
+    rotation: 180
+    state: true
 
 connections:
+- [analog_agc2_xx_0, '0', digital_pfb_clock_sync_xxx_0, '0']
+- [blocks_char_to_float_0, '0', qtgui_time_sink_x_0, '0']
 - [blocks_message_strobe_random_0, strobe, blocks_random_pdu_0, generate]
-- [blocks_packed_to_unpacked_xx_0, '0', cs330project_frame_sync_0, '0']
-- [blocks_pdu_to_tagged_stream_0, '0', blocks_packed_to_unpacked_xx_0, '0']
+- [blocks_pdu_to_tagged_stream_0, '0', cs330project_constellation_modulator_0, '0']
 - [blocks_random_pdu_0, pdus, digital_crc32_async_bb_0, in]
 - [blocks_socket_pdu_0, pdus, digital_crc32_async_bb_0, in]
+- [blocks_tagged_stream_multiply_length_0, '0', digital_burst_shaper_xx_0, '0']
+- [blocks_unpack_k_bits_bb_0, '0', blocks_char_to_float_0, '0']
+- [blocks_unpack_k_bits_bb_0, '0', cs330project_frame_sync_0, '0']
+- [channels_dynamic_channel_model_0, '0', analog_agc2_xx_0, '0']
+- [channels_dynamic_channel_model_0, '0', qtgui_freq_sink_x_0_0, '0']
+- [cs330project_constellation_modulator_0, '0', blocks_tagged_stream_multiply_length_0,
+  '0']
+- [cs330project_deinterleaver_0, pdu_out, cs330project_fec_decoder_0, pdu_in]
+- [cs330project_fec_decoder_0, pdu_out, digital_crc32_async_bb_0_0, in]
 - [cs330project_fec_encoder_0, pdu_out, cs330project_interleaver_0, pdu_in]
-- [cs330project_frame_sync_0, pdu, digital_crc32_async_bb_0_0, in]
+- [cs330project_frame_sync_0, pdu, cs330project_deinterleaver_0, pdu_in]
 - [cs330project_framer_0, frame, blocks_pdu_to_tagged_stream_0, pdus]
 - [cs330project_interleaver_0, pdu_out, cs330project_framer_0, pdu]
+- [digital_burst_shaper_xx_0, '0', channels_dynamic_channel_model_0, '0']
+- [digital_burst_shaper_xx_0, '0', qtgui_freq_sink_x_0, '0']
+- [digital_constellation_receiver_cb_0, '0', blocks_unpack_k_bits_bb_0, '0']
+- [digital_constellation_receiver_cb_0, '1', blocks_null_sink_0, '0']
+- [digital_constellation_receiver_cb_0, '2', blocks_null_sink_0, '1']
+- [digital_constellation_receiver_cb_0, '3', blocks_null_sink_0, '2']
+- [digital_constellation_receiver_cb_0, '4', qtgui_const_sink_x_0, '0']
 - [digital_crc32_async_bb_0, out, cs330project_fec_encoder_0, pdu_in]
 - [digital_crc32_async_bb_0_0, out, blocks_message_debug_0, print_pdu]
+- [digital_pfb_clock_sync_xxx_0, '0', digital_constellation_receiver_cb_0, '0']
 
 metadata:
   file_format: 1

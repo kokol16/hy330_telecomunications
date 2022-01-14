@@ -55,8 +55,9 @@ namespace gr
                 _00_10
 
             } qpsk_rotation_t;
-
+            int gray_code_qpsk[4];
             qpsk_rotation_t qpsk_rotation;
+            int find_index_of_point(int index);
 
             bpsk_rotation_t bpsk_rotation;
             shift_reg reg_preamble;
@@ -71,6 +72,7 @@ namespace gr
             int frame_length_index;
             size_t count_frames;
             int payload_length;
+            size_t bits_seen_so_far;
 
             shift_reg reg_input;
             shift_reg reg_input_sync_word;
